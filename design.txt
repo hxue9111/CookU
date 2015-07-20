@@ -26,3 +26,4 @@ RecipeDetailsActivity
 Questions: 
 
 1. Where to handle queries?
+2. Where to use a ContentProvider(required by rubric)?
