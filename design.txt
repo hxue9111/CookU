@@ -1,0 +1,30 @@
+MainActivity (Homescreen/Search interface)
+ - Logo/Title header
+
+ + RecipeSearchFragment
+  	- Text input for ingredients
+  	- Text display area for list of already added ingredients
+		- Name of ingredient
+		- Check box to add to search query
+	- Search button
+		- Launches RecipeListActivity
+
+RecipeListActivity
+ + RecipeListFragment
+ 	- View of recipe items
+ 		- View 1: Grid
+ 		- View 2: List
+ 	- Items on click
+ 		- Launches RecipeDetailsActivity
+
+RecipeDetailsActivity
+ + RecipeDetailsFragment
+ 	- Recipe picture
+ 	- Text display area of ingredients
+ 	- Text display area of instructions
+
+Questions: 
+
+1. Where to handle queries?
+2. Where to use a ContentProvider(required by rubric)?
+3. Since each Activity has only the single fragment, would it be more beneficial to use FragmentTransitions and avoid the multiple activities?
