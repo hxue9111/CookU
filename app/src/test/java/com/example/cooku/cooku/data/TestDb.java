@@ -1,12 +1,13 @@
-package com.example.cooku.cooku.testData;
+package com.example.cooku.cooku.data;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+import android.test.mock.MockContext;
 
 import java.util.HashSet;
-
 
 /**
  * Created by sarahford on 7/23/15.
@@ -16,19 +17,19 @@ import java.util.HashSet;
 public class TestDb extends AndroidTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
-
+    public static final Context context = new MockContext();
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
-        mContext.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
+        context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
     }
 
     /*
         This function gets called before each test is executed to delete the database.  This makes
         sure that we always have a clean test.
      */
-    public void setUp() {
+    public void setUp()  {
         deleteTheDatabase();
-    }
+        }
 
     /*
         Students: Uncomment this test once you've written the code to create the Location
@@ -46,9 +47,9 @@ public class TestDb extends AndroidTestCase {
         tableNameHashSet.add(RecipeContract.RecipeEntry.TABLE_NAME);
         tableNameHashSet.add(RecipeContract.IngredientEntry.TABLE_NAME);
 
-        mContext.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
+        context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
         SQLiteDatabase db = new RecipeDbHelper(
-                this.mContext).getWritableDatabase();
+                this.context).getWritableDatabase();
         assertEquals(true, db.isOpen());
 
         // have we created the tables we want?
@@ -118,15 +119,15 @@ public class TestDb extends AndroidTestCase {
         // First step: Get reference to writable database
         // If there's an error in those massive SQL table creation Strings,
         // errors will be thrown here when you try to get a writable database.
-        RecipeDbHelper dbHelper = new RecipeDbHelper(mContext);
+        RecipeDbHelper dbHelper = new RecipeDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Second Step (Weather): Create weather values
         ContentValues recipeValues = TestUtilities.createRecipeValues();
 
         // Third Step (Weather): Insert ContentValues into database and get a row ID back
-        long weatherRowId = db.insert(RecipeContract.RecipeEntry.TABLE_NAME, null, recipeValues);
-        assertTrue(weatherRowId != -1);
+        long recipeRowId = db.insert(RecipeContract.RecipeEntry.TABLE_NAME, null, recipeValues);
+        assertTrue(recipeRowId != -1);
 
         // Fourth Step: Query the database and receive a Cursor back
         // A cursor is your primary interface to the query results.
@@ -162,7 +163,7 @@ public class TestDb extends AndroidTestCase {
         // First step: Get reference to writable database
         // If there's an error in those massive SQL table creation Strings,
         // errors will be thrown here when you try to get a writable database.
-        RecipeDbHelper dbHelper = new RecipeDbHelper(mContext);
+        RecipeDbHelper dbHelper = new RecipeDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Second Step: Create ContentValues of what you want to insert
@@ -202,7 +203,7 @@ public class TestDb extends AndroidTestCase {
                 cursor, testValues);
 
         // Move the cursor to demonstrate that there is only one record in the database
-        assertFalse("Error: More than one record returned from location query",
+        assertFalse("Error: More than one record returned from Ingredient query",
                 cursor.moveToNext());
 
         // Sixth Step: Close Cursor and Database

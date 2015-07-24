@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.testData;
+package com.example.cooku.cooku.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,14 +20,20 @@ public class RecipeDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + RecipeContract.IngredientEntry.TABLE_NAME + " (" +
-                RecipeContract.IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME + "STRING NOT NULL," +
+                RecipeContract.IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME + " STRING NOT NULL " +
                 " );";
-
+//        final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
+//                LocationEntry._ID + " INTEGER PRIMARY KEY," +
+//                LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
+//                LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
+//                LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
+//                LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
+//                " );";
         final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeContract.RecipeEntry.TABLE_NAME + " (" +
 
-                RecipeContract.RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RecipeContract.RecipeEntry.COLUMN_RECIPE_URL + "STRING NOT NULL," +
+                RecipeContract.RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                RecipeContract.RecipeEntry.COLUMN_RECIPE_URL + " STRING NOT NULL " +
                ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_INGREDIENT_TABLE);

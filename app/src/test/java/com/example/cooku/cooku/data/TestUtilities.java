@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.testData;
+package com.example.cooku.cooku.data;
 
 
 import android.content.ContentValues;
