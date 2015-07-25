@@ -3,7 +3,8 @@ package com.example.cooku.cooku.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import com.example.cooku.cooku.data.RecipeContract.IngredientEntry;
+import com.example.cooku.cooku.data.RecipeContract.RecipeEntry;
 /**
  * Created by sarahford on 7/21/15.
  */
@@ -19,13 +20,13 @@ public class RecipeDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + RecipeContract.IngredientEntry.TABLE_NAME + " (" +
-                RecipeContract.IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME + " TEXT NOT NULL " +
+        final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + IngredientEntry.TABLE_NAME + " (" +
+                IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                IngredientEntry.COLUMN_INGREDIENT_NAME + " TEXT NOT NULL " +
                 " );";
-        final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeContract.RecipeEntry.TABLE_NAME + " (" +
-                RecipeContract.RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RecipeContract.RecipeEntry.COLUMN_RECIPE_URL + " TEXT NOT NULL " +
+        final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeEntry.TABLE_NAME + " (" +
+                RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                RecipeEntry.COLUMN_RECIPE_URL + " TEXT NOT NULL " +
                ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_INGREDIENT_TABLE);
@@ -40,8 +41,8 @@ public class RecipeDbHelper extends SQLiteOpenHelper {
         // It does NOT depend on the version number for your application.
         // If you want to update the schema without wiping data, commenting out the next 2 lines
         // should be your top priority before modifying this method.
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RecipeContract.RecipeEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RecipeContract.IngredientEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RecipeEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + IngredientEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

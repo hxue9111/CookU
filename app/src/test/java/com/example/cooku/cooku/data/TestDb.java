@@ -51,6 +51,7 @@ public class TestDb extends AndroidTestCase {
         tableNameHashSet.add(RecipeContract.IngredientEntry.TABLE_NAME);
 
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
+        String dbName = new RecipeDbHelper(context).getDatabaseName();
         SQLiteDatabase db = new RecipeDbHelper(context).getWritableDatabase();
         assertEquals(true, db.isOpen());
 
