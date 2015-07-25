@@ -6,10 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
-import android.util.Log;
+
+import com.example.cooku.cooku.data.RecipeContract.IngredientEntry;
+import com.example.cooku.cooku.data.RecipeContract.RecipeEntry;
 
 import java.util.HashSet;
-
 /**
  * Created by sarahford on 7/23/15.
  */
@@ -21,8 +22,7 @@ public class TestDb extends AndroidTestCase {
     public static final Context context = new MockContext();
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
-        Log.d("************", RecipeDbHelper.DATABASE_NAME);
-        String[] list = context.databaseList();
+        assertNotNull (context);
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
     }
 
@@ -47,12 +47,13 @@ public class TestDb extends AndroidTestCase {
         // Note that there will be another table in the DB that stores the
         // Android metadata (db version information)
         final HashSet<String> tableNameHashSet = new HashSet<String>();
-        tableNameHashSet.add(RecipeContract.RecipeEntry.TABLE_NAME);
-        tableNameHashSet.add(RecipeContract.IngredientEntry.TABLE_NAME);
+        tableNameHashSet.add(RecipeEntry.TABLE_NAME);
+        tableNameHashSet.add(IngredientEntry.TABLE_NAME);
 
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
         String dbName = new RecipeDbHelper(context).getDatabaseName();
         SQLiteDatabase db = new RecipeDbHelper(context).getWritableDatabase();
+        assertNotNull(context);
         assertEquals(true, db.isOpen());
 
         // have we created the tables we want?
@@ -72,7 +73,7 @@ public class TestDb extends AndroidTestCase {
                 tableNameHashSet.isEmpty());
 
         // now, do our tables contain the correct columns?
-        c = db.rawQuery("PRAGMA table_info(" + RecipeContract.IngredientEntry.TABLE_NAME + ")",
+        c = db.rawQuery("PRAGMA table_info(" + IngredientEntry.TABLE_NAME + ")",
                 null);
 
         assertTrue("Error: This means that we were unable to query the database for table information.",
@@ -80,8 +81,8 @@ public class TestDb extends AndroidTestCase {
 
         // Build a HashSet of all of the column names we want to look for
         final HashSet<String> ingredientColumnHashSet = new HashSet<String>();
-        ingredientColumnHashSet.add(RecipeContract.IngredientEntry._ID);
-        ingredientColumnHashSet.add(RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME);
+        ingredientColumnHashSet.add(IngredientEntry._ID);
+        ingredientColumnHashSet.add(IngredientEntry.COLUMN_INGREDIENT_NAME);
 
         int columnNameIndex = c.getColumnIndex("name");
         do {
@@ -129,13 +130,12 @@ public class TestDb extends AndroidTestCase {
         ContentValues recipeValues = TestUtilities.createRecipeValues();
 
         // Third Step (Weather): Insert ContentValues into database and get a row ID back
-        long recipeRowId = db.insert(RecipeContract.RecipeEntry.TABLE_NAME, null, recipeValues);
+        long recipeRowId = db.insert(RecipeEntry.TABLE_NAME, null, recipeValues);
         assertTrue(recipeRowId != -1);
 
         // Fourth Step: Query the database and receive a Cursor back
         // A cursor is your primary interface to the query results.
-        Cursor recipeCursor = db.query(
-                RecipeContract.RecipeEntry.TABLE_NAME,  // Table to Query
+        Cursor recipeCursor = db.query(RecipeEntry.TABLE_NAME,  // Table to Query
                 null, // leaving "columns" null just returns all the columns.
                 null, // cols for "where" clause
                 null, // values for "where" clause
@@ -175,7 +175,7 @@ public class TestDb extends AndroidTestCase {
 
         // Third Step: Insert ContentValues into database and get a row ID back
         long ingredientRowId;
-        ingredientRowId = db.insert(RecipeContract.IngredientEntry.TABLE_NAME, null, testValues);
+        ingredientRowId = db.insert(IngredientEntry.TABLE_NAME, null, testValues);
 
         // Verify we got a row back.
         assertTrue(ingredientRowId != -1);
@@ -185,8 +185,7 @@ public class TestDb extends AndroidTestCase {
 
         // Fourth Step: Query the database and receive a Cursor back
         // A cursor is your primary interface to the query results.
-        Cursor cursor = db.query(
-                RecipeContract.IngredientEntry.TABLE_NAME,  // Table to Query
+        Cursor cursor = db.query(IngredientEntry.TABLE_NAME,  // Table to Query
                 null, // all columns
                 null, // Columns for the "where" clause
                 null, // Values for the "where" clause
