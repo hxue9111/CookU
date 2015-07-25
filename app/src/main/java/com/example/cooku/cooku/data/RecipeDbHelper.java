@@ -19,10 +19,11 @@ public class RecipeDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + RecipeContract.IngredientEntry.TABLE_NAME + " (" +
-                RecipeContract.IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+
+        final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " + RecipeContract.IngredientEntry.TABLE_NAME + "(" +
+                RecipeContract.IngredientEntry._ID + " INTEGER PRIMARY KEY, " +
                 RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME + " STRING NOT NULL " +
-                " );";
+                ")";
 //        final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
 //                LocationEntry._ID + " INTEGER PRIMARY KEY," +
 //                LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
@@ -30,14 +31,14 @@ public class RecipeDbHelper extends SQLiteOpenHelper {
 //                LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
 //                LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
 //                " );";
-        final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeContract.RecipeEntry.TABLE_NAME + " (" +
+        final String SQL_CREATE_RECIPE_TABLE = "CREATE TABLE " + RecipeContract.RecipeEntry.TABLE_NAME + "(" +
 
-                RecipeContract.RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                RecipeContract.RecipeEntry._ID + " INTEGER PRIMARY KEY, " +
                 RecipeContract.RecipeEntry.COLUMN_RECIPE_URL + " STRING NOT NULL " +
-               ");";
-
+               ")";
         sqLiteDatabase.execSQL(SQL_CREATE_INGREDIENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_RECIPE_TABLE);
+
     }
 
     @Override

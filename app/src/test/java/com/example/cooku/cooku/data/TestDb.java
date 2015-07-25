@@ -50,7 +50,8 @@ public class TestDb extends AndroidTestCase {
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
         SQLiteDatabase db = new RecipeDbHelper(
                 this.context).getWritableDatabase();
-        assertEquals(true, db.isOpen());
+
+        assertEquals(true, db != null);
 
         // have we created the tables we want?
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
