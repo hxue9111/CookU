@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
+import android.util.Log;
 
 import java.util.HashSet;
 
@@ -20,6 +21,8 @@ public class TestDb extends AndroidTestCase {
     public static final Context context = new MockContext();
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
+        Log.d("************", RecipeDbHelper.DATABASE_NAME);
+        String[] list = context.databaseList();
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
     }
 
@@ -48,8 +51,7 @@ public class TestDb extends AndroidTestCase {
         tableNameHashSet.add(RecipeContract.IngredientEntry.TABLE_NAME);
 
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
-        SQLiteDatabase db = new RecipeDbHelper(
-                this.context).getWritableDatabase();
+        SQLiteDatabase db = new RecipeDbHelper(context).getWritableDatabase();
         assertEquals(true, db.isOpen());
 
         // have we created the tables we want?
