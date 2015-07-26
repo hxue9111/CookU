@@ -11,6 +11,7 @@ import com.example.cooku.cooku.data.RecipeContract.IngredientEntry;
 import com.example.cooku.cooku.data.RecipeContract.RecipeEntry;
 
 import java.util.HashSet;
+
 /**
  * Created by sarahford on 7/23/15.
  */
@@ -20,9 +21,10 @@ public class TestDb extends AndroidTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
     public static final Context context = new MockContext();
+
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
-        assertNotNull (context);
+        assertNotNull(context);
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
     }
 
@@ -30,9 +32,9 @@ public class TestDb extends AndroidTestCase {
         This function gets called before each test is executed to delete the database.  This makes
         sure that we always have a clean test.
      */
-    public void setUp()  {
+    public void setUp() {
         deleteTheDatabase();
-        }
+    }
 
     /*
         Students: Uncomment this test once you've written the code to create the Location
@@ -159,7 +161,6 @@ public class TestDb extends AndroidTestCase {
         recipeCursor.close();
         dbHelper.close();
     }
-
 
 
     public long insertIngredient() {

@@ -3,9 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
+
     defaultConfig {
         applicationId "com.example.cooku.cooku"
         minSdkVersion 14
