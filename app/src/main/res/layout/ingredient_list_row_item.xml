@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/ingredient_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test String"
+        android:layout_alignParentLeft="true"/>
+
+    <CheckBox
+        android:id="@+id/ingredient_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+    <ImageButton
+        android:id="@+id/ingredient_delete"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:src="@android:drawable/ic_delete"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_toLeftOf="@id/ingredient_checkbox"
+        android:layout_toStartOf="@id/ingredient_checkbox"/>
+
+
+</RelativeLayout>

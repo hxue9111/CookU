@@ -1,12 +1,13 @@
 package com.example.cooku.cooku;
 
-import android.support.v7.app.ActionBarActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity
+    implements RecipeSearchFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +35,9 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void onFragmentInteraction(Uri uri){
     }
 }
