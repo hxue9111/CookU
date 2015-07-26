@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cooku.cooku.RecipeDetailsFragment"
+    android:orientation="vertical">
+
+    <!--Recipe Name -->
+    <TextView
+        android:text="recipe name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center_horizontal|top"
+        android:id="@+id/recipe_details_name"
+        android:layout_weight="0"/>
+
+
+    <!-- Recipe Picture-->
+    <ImageView
+        android:text="recipe picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reciple_details_pic"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@mipmap/ic_launcher"
+        android:layout_weight="1"/>
+
+
+    <!-- Reciple Ingredients-->
+    <TextView
+        android:text="recipe ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/recipe_details_ingredients"
+        android:layout_gravity="center"
+        android:layout_weight="2"/>
+
+
+    <!-- Reciple Instructions-->
+    <TextView
+        android:text="recipe instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/recipe_details_instructions"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_weight="3"/>
+
+</LinearLayout>
