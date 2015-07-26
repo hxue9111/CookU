@@ -7,6 +7,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +66,23 @@ public class RecipeSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
+
+        /*Test Data*/
+        ArrayList<IngredientListItem> list = new ArrayList<IngredientListItem>();
+        list.add(new IngredientListItem("Brocolli",true));
+        list.add(new IngredientListItem("Carrot",false));
+        list.add(new IngredientListItem("Rice",true));
+        list.add(new IngredientListItem("Chicken",true));
+        list.add(new IngredientListItem("Beef",false));
+        list.add(new IngredientListItem("Cheese",true));
+
+        IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(getActivity(),list);
+
+        ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
+        listView.setAdapter(ingredientListAdapter);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -45,8 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:entries="@array/test_ingreds"/>
+        android:layout_weight="1"/>
+
     <Button
         android:id="@+id/search_recipes_button"
         android:layout_width="wrap_content"
