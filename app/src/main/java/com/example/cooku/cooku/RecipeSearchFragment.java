@@ -76,6 +76,18 @@ public class RecipeSearchFragment extends Fragment {
         list.add(new IngredientListItem("Chicken",true));
         list.add(new IngredientListItem("Beef",false));
         list.add(new IngredientListItem("Cheese",true));
+        list.add(new IngredientListItem("Brocolli",true));
+        list.add(new IngredientListItem("Carrot",false));
+        list.add(new IngredientListItem("Rice",true));
+        list.add(new IngredientListItem("Chicken",true));
+        list.add(new IngredientListItem("Beef",false));
+        list.add(new IngredientListItem("Cheese",true));
+        list.add(new IngredientListItem("Brocolli",true));
+        list.add(new IngredientListItem("Carrot",false));
+        list.add(new IngredientListItem("Rice",true));
+        list.add(new IngredientListItem("Chicken",true));
+        list.add(new IngredientListItem("Beef",false));
+        list.add(new IngredientListItem("Cheese",true));
 
         IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(getActivity(),list);
 
