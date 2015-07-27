@@ -1,9 +1,38 @@
 <resources>
     <string name="app_name">CookU</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Hello world! (Will make logo/header later)</string>
     <string name="action_settings">Settings</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- RecipeSearchLayout Strings -->
+
+    <string name="ingredient_add_label">Ingredient: </string>
+    <string name="ingredient_add_button">Add the ingredient.</string>
+    <string name="recipe_search_button">Search for recipes</string>
+    <string-array name="test_ingreds">
+        <item>Egg</item>
+        <item>Bread</item>
+        <item>Carrot</item>
+        <item>Chicken</item>
+        <item>Spaghetti</item>
+        <item>Rice</item>
+        <item>Egg</item>
+        <item>Bread</item>
+        <item>Carrot</item>
+        <item>Chicken</item>
+        <item>Spaghetti</item>
+        <item>Rice</item>
+        <item>Egg</item>
+        <item>Bread</item>
+        <item>Carrot</item>
+        <item>Chicken</item>
+        <item>Spaghetti</item>
+        <item>Rice</item>
+    </string-array>
+
+
 </resources>
