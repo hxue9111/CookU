@@ -4,25 +4,24 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.test.AndroidTestCase;
-import android.test.mock.MockContext;
+import android.test.InstrumentationTestCase;
 
 import com.example.cooku.cooku.data.RecipeContract.IngredientEntry;
 import com.example.cooku.cooku.data.RecipeContract.RecipeEntry;
 
 import java.util.HashSet;
+
 /**
  * Created by sarahford on 7/23/15.
  */
 
 
-public class TestDb extends AndroidTestCase {
+public class TestDb extends InstrumentationTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
-    public static final Context context = new MockContext();
+    Context context;
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
-        assertNotNull (context);
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
     }
 
@@ -30,9 +29,10 @@ public class TestDb extends AndroidTestCase {
         This function gets called before each test is executed to delete the database.  This makes
         sure that we always have a clean test.
      */
-    public void setUp()  {
+    public void setUp() {
+        context = getInstrumentation().getContext();
         deleteTheDatabase();
-        }
+    }
 
     /*
         Students: Uncomment this test once you've written the code to create the Location
@@ -51,9 +51,9 @@ public class TestDb extends AndroidTestCase {
         tableNameHashSet.add(IngredientEntry.TABLE_NAME);
 
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
-        String dbName = new RecipeDbHelper(context).getDatabaseName();
+//        String dbName = new RecipeDbHelper(context).getDatabaseName();
         SQLiteDatabase db = new RecipeDbHelper(context).getWritableDatabase();
-        assertNotNull(context);
+        boolean here = db.isOpen();
         assertEquals(true, db.isOpen());
 
         // have we created the tables we want?
@@ -159,7 +159,6 @@ public class TestDb extends AndroidTestCase {
         recipeCursor.close();
         dbHelper.close();
     }
-
 
 
     public long insertIngredient() {
