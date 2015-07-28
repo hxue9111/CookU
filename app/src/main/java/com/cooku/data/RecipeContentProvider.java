@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.data;
+package com.cooku.data;
 
 /**
  * Created by sarahford on 7/27/15.

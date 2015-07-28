@@ -1,25 +1,23 @@
-package com.example.cooku.cooku;
+package com.cooku;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RecipeDetailsFragment.OnFragmentInteractionListener} interface
+ * {@link RecipeListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link RecipeDetailsFragment#newInstance} factory method to
+ * Use the {@link RecipeListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeDetailsFragment extends Fragment {
+public class RecipeListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,11 +35,11 @@ public class RecipeDetailsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipeDetailsFragment.
+     * @return A new instance of fragment RecipeListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RecipeDetailsFragment newInstance(String param1, String param2) {
-        RecipeDetailsFragment fragment = new RecipeDetailsFragment();
+    public static RecipeListFragment newInstance(String param1, String param2) {
+        RecipeListFragment fragment = new RecipeListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -49,7 +47,7 @@ public class RecipeDetailsFragment extends Fragment {
         return fragment;
     }
 
-    public RecipeDetailsFragment() {
+    public RecipeListFragment() {
         // Required empty public constructor
     }
 
@@ -65,26 +63,8 @@ public class RecipeDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        /* Set the reciple details page to fixed site */
-        View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
-        WebView myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        myWebView.setWebViewClient(new MyWebViewClient());
-        myWebView.loadUrl("http://www.dailypuppy.com/");
-
-
         // Inflate the layout for this fragment
-        return rootView;
-    }
-
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
+        return inflater.inflate(R.layout.fragment_recipe_list, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

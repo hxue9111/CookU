@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.utils;
+package com.cooku.utils;
 
 /*
  * Copyright (C) 2012 The Android Open Source Project

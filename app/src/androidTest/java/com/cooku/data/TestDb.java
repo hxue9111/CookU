@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.data;
+package com.cooku.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.InstrumentationTestCase;
 
-import com.example.cooku.cooku.data.RecipeContract.IngredientEntry;
-import com.example.cooku.cooku.data.RecipeContract.RecipeEntry;
+import com.cooku.data.RecipeContract.IngredientEntry;
+import com.cooku.data.RecipeContract.RecipeEntry;
 
 import java.util.HashSet;
 

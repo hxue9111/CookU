@@ -1,4 +1,4 @@
-package com.example.cooku.cooku;
+package com.cooku;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;

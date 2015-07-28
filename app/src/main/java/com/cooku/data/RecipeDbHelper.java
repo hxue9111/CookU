@@ -1,10 +1,10 @@
-package com.example.cooku.cooku.data;
+package com.cooku.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.cooku.cooku.data.RecipeContract.IngredientEntry;
-import com.example.cooku.cooku.data.RecipeContract.RecipeEntry;
+import com.cooku.data.RecipeContract.IngredientEntry;
+import com.cooku.data.RecipeContract.RecipeEntry;
 /**
  * Created by sarahford on 7/21/15.
  */
