@@ -18,4 +18,7 @@
         </activity>
     </application>
 
+    <!-- Need this for WebView to be able to load pages -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

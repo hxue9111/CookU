@@ -1,12 +1,14 @@
 package com.example.cooku.cooku;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 
 /**
@@ -63,8 +65,26 @@ public class RecipeDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /* Set the reciple details page to fixed site */
+        View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
+        WebView myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        myWebView.setWebViewClient(new MyWebViewClient());
+        myWebView.loadUrl("http://www.dailypuppy.com/");
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_details, container, false);
+        return rootView;
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
