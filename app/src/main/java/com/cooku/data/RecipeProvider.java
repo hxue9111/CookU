@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.data;
+package com.cooku.data;
 
 import android.annotation.TargetApi;
 import android.content.ContentProvider;

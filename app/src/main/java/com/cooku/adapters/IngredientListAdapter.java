@@ -1,7 +1,6 @@
-package com.example.cooku.cooku;
+package com.cooku.adapters;
 
 import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import com.cooku.models.IngredientListItem;
+import com.cooku.R;
+
 /**
  * Created by Huang Xue on 7/25/2015.
  */
 public class IngredientListAdapter extends ArrayAdapter<IngredientListItem>{
 
-    public final Context context;
-    public final ArrayList<IngredientListItem> itemsList;
+    private final Context context;
+    private final ArrayList<IngredientListItem> itemsList;
     public IngredientListAdapter(Context context, ArrayList<IngredientListItem> itemsList){
         super(context,0,itemsList);
 
@@ -33,8 +35,8 @@ public class IngredientListAdapter extends ArrayAdapter<IngredientListItem>{
             TextView ingName = (TextView) convertView.findViewById(R.id.ingredient_name);
             CheckBox toggle= (CheckBox) convertView.findViewById(R.id.ingredient_checkbox);
             // Populate the data into the template view using the data object
-            ingName.setText(ingredient.name);
-            toggle.setChecked(ingredient.checked);
+            ingName.setText(ingredient.getName());
+            toggle.setChecked(ingredient.isChecked());
             // Return the completed view to render on screen
         }
         return convertView;
