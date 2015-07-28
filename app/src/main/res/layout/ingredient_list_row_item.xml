@@ -24,6 +24,4 @@
         android:background="?android:attr/selectableItemBackground"
         android:layout_toLeftOf="@id/ingredient_checkbox"
         android:layout_toStartOf="@id/ingredient_checkbox"/>
-
-
 </RelativeLayout>
