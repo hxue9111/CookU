@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.test.InstrumentationTestCase;
 
 import com.cooku.data.RecipeContract.IngredientEntry;
 import com.cooku.data.RecipeContract.RecipeEntry;
 
+import java.io.File;
 import java.util.HashSet;
 
 /**
@@ -20,7 +22,9 @@ public class TestDb extends InstrumentationTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
     Context context;
+
     // Since we want each test to start with a clean slate
+
     void deleteTheDatabase() {
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
     }
@@ -32,6 +36,7 @@ public class TestDb extends InstrumentationTestCase {
     public void setUp() {
         context = getInstrumentation().getContext();
         deleteTheDatabase();
+
     }
 
     /*
@@ -52,6 +57,8 @@ public class TestDb extends InstrumentationTestCase {
 
         context.deleteDatabase(RecipeDbHelper.DATABASE_NAME);
 //        String dbName = new RecipeDbHelper(context).getDatabaseName();
+
+
         SQLiteDatabase db = new RecipeDbHelper(context).getWritableDatabase();
         boolean here = db.isOpen();
         assertEquals(true, db.isOpen());

@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.cooku.data.RecipeContract.IngredientEntry;
 import com.cooku.data.RecipeContract.RecipeEntry;
+
+import java.io.File;
+
 /**
  * Created by sarahford on 7/21/15.
  */
@@ -16,6 +19,18 @@ public class RecipeDbHelper extends SQLiteOpenHelper {
 
     public RecipeDbHelper(Context context)  {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        File dbFile = context.getDatabasePath(RecipeDbHelper.DATABASE_NAME);
+        if(dbFile.exists()){
+            System.out.println("Exists");
+        }
+        else {
+            //This'll create the directories you wanna write to, so you
+            //can put the DB in the right spot.
+            System.out.println("creating : " + dbFile.getParentFile());
+            dbFile.getParentFile().mkdirs();
+        }
+
     }
 
     @Override
