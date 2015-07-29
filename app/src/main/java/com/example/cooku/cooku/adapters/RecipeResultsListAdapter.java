@@ -15,6 +15,9 @@ import java.util.ArrayList;
 /**
  * Created by Julie on 7/28/2015.
  */
+
+
+
 public class RecipeResultsListAdapter extends ArrayAdapter<RecipeResultsListItem>
 {
 
