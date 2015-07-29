@@ -1,12 +1,18 @@
 package com.example.cooku.cooku;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.example.cooku.cooku.adapters.RecipeResultsListAdapter;
+import com.example.cooku.cooku.models.RecipeResultsListItem;
+
+import java.util.ArrayList;
 
 
 /**
@@ -64,7 +70,25 @@ public class RecipeListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_list, container, false);
+
+        View view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
+
+        /*  Hard code test data */
+        ArrayList<RecipeResultsListItem> list = new ArrayList<RecipeResultsListItem>();
+        list.add(new RecipeResultsListItem("Mac n Cheese"));
+        list.add(new RecipeResultsListItem("Creme Brule"));
+        list.add(new RecipeResultsListItem("Berry Lemonade"));
+        list.add(new RecipeResultsListItem("Pad Thai"));
+        list.add(new RecipeResultsListItem("Mac n Cheese"));
+        list.add(new RecipeResultsListItem("Creme Brule"));
+        list.add(new RecipeResultsListItem("Berry Lemonade"));
+        list.add(new RecipeResultsListItem("Pad Thai"));
+
+        RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), list);
+        ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
+        listView.setAdapter(listSearchAdapter);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

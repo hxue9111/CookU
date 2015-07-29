@@ -17,7 +17,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment newFragment = new RecipeDetailsFragment();
+        Fragment newFragment = new RecipeListFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.recipe_search_fragment, newFragment).commit();
     }
