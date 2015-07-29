@@ -10,14 +10,15 @@ import android.support.v7.app.ActionBarActivity;
 
 public class MainActivity extends ActionBarActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
-                RecipeDetailsFragment.OnFragmentInteractionListener{
+                RecipeDetailsFragment.OnFragmentInteractionListener,
+                RecipeListFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment newFragment = new RecipeDetailsFragment();
+        Fragment newFragment = new RecipeListFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.recipe_search_fragment, newFragment).commit();
     }

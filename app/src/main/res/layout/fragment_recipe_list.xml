@@ -1,119 +1,18 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cooku.RecipeListFragment">
-
-    <!-- Recipe picutre-->
-    <ImageView
-        android:id="@+id/list_item_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:src="@mipmap/ic_launcher" />
+    tools:context="com.cooku.RecipeListFragment"
+    android:orientation="vertical">
 
 
-    <!-- Recipe name-->
-    <TextView
-        android:id="@+id/list_item_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/list_item_pic"
-        android:gravity="center_vertical"
-        android:text="Recipe Name"
-        android:textSize="16sp" />
-
-    <!-- Recipe picutre-->
-    <ImageView
-        android:id="@+id/list_item_pic1"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:src="@mipmap/ic_launcher" />
-    <!-- Recipe name-->
-    <TextView
-        android:id="@+id/firstLine1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/list_item_pic"
-        android:gravity="center_vertical"
-        android:text="Example application"
-        android:textSize="16sp" />
-    <!-- Recipe picutre-->
-    <ImageView
-        android:id="@+id/list_item_pic2"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:src="@mipmap/ic_launcher" />
-    <!-- Recipe name-->
-    <TextView
-        android:id="@+id/firstLine2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/list_item_pic"
-        android:gravity="center_vertical"
-        android:text="Example application"
-        android:textSize="16sp" />
-    <!-- Recipe picutre-->
-    <ImageView
-        android:id="@+id/list_item_pic3"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:src="@mipmap/ic_launcher" />
-    <!-- Recipe name-->
-    <TextView
-        android:id="@+id/firstLine3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/list_item_pic"
-        android:gravity="center_vertical"
-        android:text="Example application"
-        android:textSize="16sp" />
-    <!-- Recipe picutre-->
-    <ImageView
-        android:id="@+id/list_item_pic4"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:src="@mipmap/ic_launcher" />
-    <!-- Recipe name-->
-    <TextView
-        android:id="@+id/firstLine4"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/list_item_pic"
-        android:gravity="center_vertical"
-        android:text="Example application"
-        android:textSize="16sp" />
+    <ListView
+        android:id="@+id/search_results_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"/>
 
 
-
-</RelativeLayout>
+</LinearLayout>
