@@ -15,7 +15,6 @@ import com.cooku.R;
  * Created by Huang Xue on 7/25/2015.
  */
 public class IngredientListAdapter extends ArrayAdapter<IngredientListItem>{
-
     private final Context context;
     private final ArrayList<IngredientListItem> itemsList;
     public IngredientListAdapter(Context context, ArrayList<IngredientListItem> itemsList){
