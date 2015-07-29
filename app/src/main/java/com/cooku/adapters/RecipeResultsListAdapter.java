@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.cooku.R;
 import com.cooku.models.RecipeResultsListItem;
 
-
 import java.util.ArrayList;
 
 /**
