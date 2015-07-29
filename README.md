@@ -6,9 +6,11 @@ Google Doc: https://docs.google.com/document/d/1Zf3IkstqBkmMxjLATQFFAIwvjbszTAFB
 Make sure we conform to reqs! https://www.udacity.com/wiki/ud853/project
 
 Currently Working on:
+
 Huang- AsyncTaskLoader that can calls backend and generates list of RecipeItems
 
 TODOS:
+
 -Create SettingsActivity to manage settings (like grid/list recipe view)
 
 -Make recipe list on RecipeSearchFragment be populated by Cursor from ContentProvider (cursorloader?)
