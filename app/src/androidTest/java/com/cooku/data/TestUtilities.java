@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.data;
+package com.cooku.data;
 
 
 import android.content.ContentValues;
@@ -11,7 +11,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import com.example.cooku.cooku.utils.PollingCheck;
+import com.cooku.utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;

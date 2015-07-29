@@ -9,7 +9,9 @@
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <fragment android:name="com.example.cooku.cooku.RecipeListFragment"
+
+    <fragment android:name="com.example.cooku.cooku.RecipeSearchFragment"
+ dfca35ba2fab0c9a219e2589e7713cfeaf381baa
         android:id="@+id/recipe_search_fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"

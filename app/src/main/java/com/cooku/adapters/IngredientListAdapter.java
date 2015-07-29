@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.adapters;
+package com.cooku.adapters;
 
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
@@ -8,16 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.example.cooku.cooku.models.IngredientListItem;
-import com.example.cooku.cooku.R;
+import com.cooku.models.IngredientListItem;
+import com.cooku.R;
 
 /**
  * Created by Huang Xue on 7/25/2015.
  */
 public class IngredientListAdapter extends ArrayAdapter<IngredientListItem>{
 
-    public final Context context;
-    public final ArrayList<IngredientListItem> itemsList;
+    private final Context context;
+    private final ArrayList<IngredientListItem> itemsList;
     public IngredientListAdapter(Context context, ArrayList<IngredientListItem> itemsList){
         super(context,0,itemsList);
 

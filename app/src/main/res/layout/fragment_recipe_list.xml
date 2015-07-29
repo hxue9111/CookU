@@ -6,6 +6,7 @@
     tools:context="com.example.cooku.cooku.RecipeListFragment"
     android:orientation="vertical">
 
+
     <ListView
         android:id="@+id/search_results_list_view"
         android:layout_width="match_parent"
