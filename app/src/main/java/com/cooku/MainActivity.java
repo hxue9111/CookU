@@ -10,7 +10,8 @@ import android.support.v7.app.ActionBarActivity;
 
 public class MainActivity extends ActionBarActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
-                RecipeDetailsFragment.OnFragmentInteractionListener{
+                RecipeDetailsFragment.OnFragmentInteractionListener,
+                RecipeListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

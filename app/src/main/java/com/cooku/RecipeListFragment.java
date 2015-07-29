@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.cooku.cooku.adapters.RecipeResultsListAdapter;
-import com.example.cooku.cooku.models.RecipeResultsListItem;
+import com.cooku.adapters.RecipeResultsListAdapter;
+import com.cooku.models.RecipeResultsListItem;
 
 import java.util.ArrayList;
 

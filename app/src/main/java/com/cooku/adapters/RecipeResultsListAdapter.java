@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.adapters;
+package com.cooku.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.cooku.cooku.R;
-import com.example.cooku.cooku.models.RecipeResultsListItem;
+import com.cooku.R;
+import com.cooku.models.RecipeResultsListItem;
+
 
 import java.util.ArrayList;
 

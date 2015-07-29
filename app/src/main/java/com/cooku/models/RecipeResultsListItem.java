@@ -1,4 +1,4 @@
-package com.example.cooku.cooku.models;
+package com.cooku.models;
 
 /**
  * Created by Julie on 7/28/2015.
