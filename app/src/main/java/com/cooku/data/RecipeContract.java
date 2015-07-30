@@ -14,7 +14,7 @@ public class RecipeContract {
     // content authority is the package name for the app, which is guaranteed to be unique on the
     // device.
 
-    public static final String CONTENT_AUTHORITY= "com.cooku.data";
+    public static final String CONTENT_AUTHORITY= "com.cooku";
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
@@ -43,12 +43,13 @@ public class RecipeContract {
         public static final String TABLE_NAME = "ingredient";
 
         public static final String COLUMN_INGREDIENT_NAME = "ingredient_name";
+//        public static final Boolean Columnn
 
         public static Uri buildIngredientURI (long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri builIngredientURI(String ingredientName) {
+        public static Uri buildIngredientURI(String ingredientName) {
             return CONTENT_URI.buildUpon().appendPath(ingredientName).build();
         }
 
@@ -81,7 +82,7 @@ public class RecipeContract {
     public static Uri buildRecipeUri(long id) {
          return ContentUris.withAppendedId(CONTENT_URI, id);
     }
-        public static Uri buildRecipeURI (String url) {
+        public static Uri buildRecipeUri (String url) {
             return CONTENT_URI.buildUpon().appendPath(url).build();
         }
         public static String getUrlFromURI(Uri uri) {

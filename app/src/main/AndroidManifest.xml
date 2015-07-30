@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.cooku"
+            android:name=".data.RecipeProvider"
+            android:exported="false"
+            android:syncable="true"
+            />
     </application>
 
     <!-- Need this for WebView to be able to load pages -->
