@@ -2,8 +2,10 @@ package com.cooku;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,12 +64,8 @@ public class RecipeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
-        //if (preferences.listview == listview ) LIST VIEW
+        View view;
         /*  Hard code test data */
-        View view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
         ArrayList<RecipeItem> list = new ArrayList<RecipeItem>();
         list.add(new RecipeItem("Mac n Cheese", "", "", ""));
         list.add(new RecipeItem("Creme Brule", "", "", ""));
@@ -77,22 +75,30 @@ public class RecipeListFragment extends Fragment {
         list.add(new RecipeItem("Creme Brule", "", "", ""));
         list.add(new RecipeItem("Berry Lemonade", "", "", ""));
         list.add(new RecipeItem("Pad Thai", "", "", ""));
-
-        RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), list);
-        ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
-        listView.setAdapter(listSearchAdapter);
-        //else
-        //GRID VIEW
         /* Hard coded recipe items with only images*/
-        view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
         List<RecipeItem> fakedata = new ArrayList<RecipeItem>();
         fakedata.add(new RecipeItem("","http://i.imgur.com/ZLixWFT.jpg","",""));
         fakedata.add(new RecipeItem("", "http://i.imgur.com/ZSgMm0u.jpg", "", ""));
         fakedata.add(new RecipeItem("", "http://i.imgur.com/TWaUGEi.jpg", "", ""));
         fakedata.add(new RecipeItem("", "http://i.imgur.com/JRWFumf.jpg", "", ""));
-        RecipeResultsGridAdapter adapter = new RecipeResultsGridAdapter(getActivity(), fakedata);
-        GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
-        gv.setAdapter(adapter);
+
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String viewType = sharedPrefs.getString(
+                getString(R.string.pref_view_key),
+                getString(R.string.pref_view_pin));
+        if(viewType.equals(getString(R.string.pref_view_list))){
+            view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
+            RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), list);
+            ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
+            listView.setAdapter(listSearchAdapter);
+        }else {
+            view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
+            RecipeResultsGridAdapter adapter = new RecipeResultsGridAdapter(getActivity(), fakedata);
+            GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
+            gv.setAdapter(adapter);
+        }
+
 
         return view;
     }
