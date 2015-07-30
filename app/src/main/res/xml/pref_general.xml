@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="@string/pref_view_key"
+        android:title="@string/pref_view_label"
+        android:defaultValue="@string/pref_view_pin"
+        android:entries="@array/pref_view_options"
+        android:entryValues="@array/pref_view_values" />
+
+</PreferenceScreen>
