@@ -1,6 +1,5 @@
 package com.cooku;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
