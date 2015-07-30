@@ -7,7 +7,7 @@ Google Doc: https://docs.google.com/document/d/1Zf3IkstqBkmMxjLATQFFAIwvjbszTAFB
 
 ###Currently Working on:
 
-Huang- AsyncTaskLoader that can calls backend and generates list of RecipeItems
+Huang- Connecting fragments
 
 ###TODOS:
 ```
