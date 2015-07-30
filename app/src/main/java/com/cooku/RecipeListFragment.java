@@ -13,7 +13,6 @@ import android.widget.ListView;
 import com.cooku.adapters.RecipeResultsGridAdapter;
 import com.cooku.adapters.RecipeResultsListAdapter;
 import com.cooku.models.RecipeItem;
-import com.cooku.models.RecipeResultsListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,15 +68,15 @@ public class RecipeListFragment extends Fragment {
         //if (preferences.listview == listview ) LIST VIEW
         /*  Hard code test data */
         View view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
-        ArrayList<RecipeResultsListItem> list = new ArrayList<RecipeResultsListItem>();
-        list.add(new RecipeResultsListItem("Mac n Cheese"));
-        list.add(new RecipeResultsListItem("Creme Brule"));
-        list.add(new RecipeResultsListItem("Berry Lemonade"));
-        list.add(new RecipeResultsListItem("Pad Thai"));
-        list.add(new RecipeResultsListItem("Mac n Cheese"));
-        list.add(new RecipeResultsListItem("Creme Brule"));
-        list.add(new RecipeResultsListItem("Berry Lemonade"));
-        list.add(new RecipeResultsListItem("Pad Thai"));
+        ArrayList<RecipeItem> list = new ArrayList<RecipeItem>();
+        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
+        list.add(new RecipeItem("Creme Brule", "", "", ""));
+        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
+        list.add(new RecipeItem("Pad Thai", "", "", ""));
+        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
+        list.add(new RecipeItem("Creme Brule", "", "", ""));
+        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
+        list.add(new RecipeItem("Pad Thai", "", "", ""));
 
         RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), list);
         ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
