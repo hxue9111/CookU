@@ -8,6 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.app.ActionBarActivity;
 
+import com.cooku.models.IngredientItem;
+
+import java.util.List;
+
 public class MainActivity extends ActionBarActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
                 RecipeDetailsFragment.OnFragmentInteractionListener,
@@ -18,9 +22,9 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment newFragment = new RecipeListFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.recipe_search_fragment, newFragment).commit();
+//        Fragment newFragment = new RecipeListFragment();
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.replace(R.id.recipe_search_fragment, newFragment).commit();
     }
 
     @Override
@@ -45,7 +49,12 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onSearchTrigger(List<IngredientItem> ingredients){
+        getFragmentManager().beginTransaction()
+                .replace(R.id.recipe_search_view, RecipeListFragment.newInstance(new String[]{"ingred1","ingred2","ingred3"}))
+                .commit();
+    }
     public void onFragmentInteraction(Uri uri){
     }
 }
