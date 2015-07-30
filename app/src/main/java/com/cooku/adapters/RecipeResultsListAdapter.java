@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cooku.R;
-import com.cooku.models.RecipeResultsListItem;
+import com.cooku.models.RecipeItem;
 
 import java.util.ArrayList;
 
@@ -18,13 +18,13 @@ import java.util.ArrayList;
 
 
 
-public class RecipeResultsListAdapter extends ArrayAdapter<RecipeResultsListItem>
+public class RecipeResultsListAdapter extends ArrayAdapter<RecipeItem>
 {
 
     private final Context context;
-    private final ArrayList<RecipeResultsListItem> itemsList;
+    private final ArrayList<RecipeItem> itemsList;
 
-    public RecipeResultsListAdapter (Context context, ArrayList<RecipeResultsListItem> itemsList)
+    public RecipeResultsListAdapter (Context context, ArrayList<RecipeItem> itemsList)
     {
         super(context, 0, itemsList);
         this.context = context;
@@ -33,7 +33,7 @@ public class RecipeResultsListAdapter extends ArrayAdapter<RecipeResultsListItem
 
     public View getView (int position, View convertView, ViewGroup parent)
     {
-        RecipeResultsListItem recipeName = getItem(position);
+        RecipeItem recipeName = getItem(position);
 
         if (convertView == null)
         {

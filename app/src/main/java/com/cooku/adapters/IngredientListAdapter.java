@@ -8,16 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.cooku.models.IngredientListItem;
+import com.cooku.models.IngredientItem;
 import com.cooku.R;
 
 /**
  * Created by Huang Xue on 7/25/2015.
  */
-public class IngredientListAdapter extends ArrayAdapter<IngredientListItem>{
+public class IngredientListAdapter extends ArrayAdapter<IngredientItem>{
     private final Context context;
-    private final ArrayList<IngredientListItem> itemsList;
-    public IngredientListAdapter(Context context, ArrayList<IngredientListItem> itemsList){
+    private final ArrayList<IngredientItem> itemsList;
+    public IngredientListAdapter(Context context, ArrayList<IngredientItem> itemsList){
         super(context,0,itemsList);
 
         this.context = context;
@@ -26,7 +26,7 @@ public class IngredientListAdapter extends ArrayAdapter<IngredientListItem>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        IngredientListItem ingredient = getItem(position);
+        IngredientItem ingredient = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.ingredient_list_row_item, parent, false);

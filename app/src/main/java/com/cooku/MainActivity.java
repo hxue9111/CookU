@@ -1,12 +1,16 @@
 package com.cooku;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.app.ActionBarActivity;
+
+import com.cooku.models.IngredientItem;
+
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
@@ -18,9 +22,9 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment newFragment = new RecipeListFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.recipe_search_fragment, newFragment).commit();
+//        Fragment newFragment = new RecipeListFragment();
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.replace(R.id.recipe_search_fragment, newFragment).commit();
     }
 
     @Override
@@ -39,12 +43,29 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onSearchTrigger(List<IngredientItem> ingredients){
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(new String[]{"ingred1","ingred2","ingred3"}));
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     public void onFragmentInteraction(Uri uri){
     }
