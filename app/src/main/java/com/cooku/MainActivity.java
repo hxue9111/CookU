@@ -51,9 +51,10 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onSearchTrigger(List<IngredientItem> ingredients){
-        getFragmentManager().beginTransaction()
-                .replace(R.id.recipe_search_view, RecipeListFragment.newInstance(new String[]{"ingred1","ingred2","ingred3"}))
-                .commit();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(new String[]{"ingred1","ingred2","ingred3"}));
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
     public void onFragmentInteraction(Uri uri){
     }
