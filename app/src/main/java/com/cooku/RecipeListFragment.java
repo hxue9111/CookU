@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -18,7 +19,6 @@ import com.cooku.data.RecipeSearcher;
 import com.cooku.models.RecipeItem;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,13 +31,13 @@ import java.util.List;
  * Use the {@link RecipeListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeListFragment extends Fragment {
+public class RecipeListFragment extends Fragment implements RecipeSearcher.RecipeSearcherCallback {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM_INGREDIENTS = "ingredients";
     private RecipeSearcher searcher;
     private List<RecipeItem> recipes;
     private OnFragmentInteractionListener mListener;
-
+    private BaseAdapter viewAdapter;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -62,7 +62,7 @@ public class RecipeListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipes = Collections.synchronizedList(new ArrayList<RecipeItem>());
-            searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes);
+            searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes,this);
             searcher.requestRecipes();
         }
     }
@@ -95,20 +95,23 @@ public class RecipeListFragment extends Fragment {
                 getString(R.string.pref_view_pin));
         if(viewType.equals(getString(R.string.pref_view_list))){
             view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
-            RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), recipes);
+            viewAdapter = new RecipeResultsListAdapter(getActivity(), recipes);
             ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
-            listView.setAdapter(listSearchAdapter);
+            listView.setAdapter(viewAdapter);
         }else {
             view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
-            RecipeResultsGridAdapter adapter = new RecipeResultsGridAdapter(getActivity(), recipes);
+            viewAdapter = new RecipeResultsGridAdapter(getActivity(), recipes);
             GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
-            gv.setAdapter(adapter);
+            gv.setAdapter(viewAdapter);
         }
 
 
         return view;
     }
-
+    @Override
+    public void onFinishedLoading(){
+        viewAdapter.notifyDataSetChanged();
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

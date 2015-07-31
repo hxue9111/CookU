@@ -25,11 +25,13 @@ public class RecipeSearcher {
     private final String BASE_URL;
     private final String PAGE_PARAM = "page";
     private int page = 1;
+    private RecipeSearcherCallback callback;
 
-    public RecipeSearcher(String[] ingredients, List<RecipeItem> recipes){
+    public RecipeSearcher(String[] ingredients, List<RecipeItem> recipes, RecipeSearcherCallback callback){
         this.recipes = recipes;
         this.BASE_URL ="http://www.cookcucina.com/v1/recipes/search?ingredients=" +
                         android.text.TextUtils.join(",",ingredients);
+        this.callback = callback;
         //http://www.cookcucina.com/v1/recipes/search?ingredients=“..."
     }
 
@@ -92,7 +94,12 @@ public class RecipeSearcher {
         @Override
         protected void onPostExecute(Void v){
             System.out.println("finished: "+recipes.size());
+            callback.onFinishedLoading();
         }
+    }
+
+    public interface RecipeSearcherCallback{
+        public void onFinishedLoading();
     }
 }
 
