@@ -110,6 +110,7 @@ public class RecipeListFragment extends Fragment implements RecipeSearcher.Recip
     }
     @Override
     public void onFinishedLoading(){
+        getActivity().findViewById(R.id.loading_animation).setVisibility(View.GONE);
         viewAdapter.notifyDataSetChanged();
     }
     // TODO: Rename method, update argument and hook method into UI event

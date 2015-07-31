@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.cooku.models.IngredientItem;
 
@@ -63,6 +64,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onSearchTrigger(List<IngredientItem> ingredients){
+        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(new String[]{"eggs","bacon"}));
         transaction.addToBackStack(null);
