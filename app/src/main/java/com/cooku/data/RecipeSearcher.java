@@ -27,6 +27,7 @@ public class RecipeSearcher {
     private int page = 1;
     private RecipeSearcherCallback callback;
 
+    //Create searcher with array of ingredients, list to add recipes to, and callback upon finish loading
     public RecipeSearcher(String[] ingredients, List<RecipeItem> recipes, RecipeSearcherCallback callback){
         this.recipes = recipes;
         this.BASE_URL ="http://www.cookcucina.com/v1/recipes/search?ingredients=" +
@@ -41,10 +42,11 @@ public class RecipeSearcher {
                 //.appendQueryParameter(PAGE_PARAM, page)
                 .build();
         page++;
+        //Building the request
         Request request = new Request.Builder()
                 .url(builtUri.toString())
                 .build();
-
+        //Asynchronous OkHttp Call
         client.newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Request request, IOException ioe) {
                 ioe.printStackTrace();
@@ -54,12 +56,12 @@ public class RecipeSearcher {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String stringResponse = response.body().string();
 
+                //Send response string to the parser to add to recipe list
                 new ResponseParser(recipes).execute(stringResponse);
-                System.out.println(stringResponse);
             }
         });
     }
-
+    //Asynchronous JSON parser, automatically adds recipe items to recipe list
     private class ResponseParser extends AsyncTask<String, Void, Void>{
         List<RecipeItem> recipes;
         public ResponseParser(List<RecipeItem> recipes){
@@ -68,14 +70,10 @@ public class RecipeSearcher {
         @Override
         protected Void doInBackground(String ... json) {
             try {
-                System.out.println("json[0]: "+json[0]);
                 JSONObject jsonObject = new JSONObject(json[0]);
-                System.out.println("recipe list obj: "+jsonObject.toString());
                 JSONArray recipesArray = jsonObject.getJSONArray("recipes");
-                System.out.println("recipe array: "+recipesArray.toString());
                 for (int i=0; i < recipesArray.length(); i++)
                 {
-                    System.out.println("in loopz");
                     JSONObject recipeObject = recipesArray.getJSONObject(i);
                     // Pulling items from the array
                     RecipeItem recipe = new RecipeItem(
@@ -93,11 +91,11 @@ public class RecipeSearcher {
         }
         @Override
         protected void onPostExecute(Void v){
-            System.out.println("finished: "+recipes.size());
             callback.onFinishedLoading();
         }
     }
 
+    //Callback interface
     public interface RecipeSearcherCallback{
         public void onFinishedLoading();
     }
