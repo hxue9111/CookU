@@ -4,13 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 import android.test.InstrumentationTestCase;
 
 import com.cooku.data.RecipeContract.IngredientEntry;
 import com.cooku.data.RecipeContract.RecipeEntry;
 
-import java.io.File;
 import java.util.HashSet;
 
 /**
@@ -74,9 +72,7 @@ public class TestDb extends InstrumentationTestCase {
             tableNameHashSet.remove(c.getString(0));
         } while (c.moveToNext());
 
-        // if this fails, it means that your database doesn't contain both the location entry
-        // and weather entry tables
-        assertTrue("Error: Your database was created without both the location entry and weather entry tables",
+        assertTrue("Error: Your database was created without both the recipe entry and ingredient entry tables",
                 tableNameHashSet.isEmpty());
 
         // now, do our tables contain the correct columns?
@@ -90,6 +86,7 @@ public class TestDb extends InstrumentationTestCase {
         final HashSet<String> ingredientColumnHashSet = new HashSet<String>();
         ingredientColumnHashSet.add(IngredientEntry._ID);
         ingredientColumnHashSet.add(IngredientEntry.COLUMN_INGREDIENT_NAME);
+        ingredientColumnHashSet.add(IngredientEntry.COLUMN_SELECTED);
 
         int columnNameIndex = c.getColumnIndex("name");
         do {
@@ -99,7 +96,7 @@ public class TestDb extends InstrumentationTestCase {
 
         // if this fails, it means that your database doesn't contain all of the required location
         // entry columns
-        assertTrue("Error: The database doesn't contain all of the required location entry columns",
+        assertTrue("Error: The database doesn't contain all of the required ingredient entry columns",
                 ingredientColumnHashSet.isEmpty());
         db.close();
     }
