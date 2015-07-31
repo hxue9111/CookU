@@ -14,9 +14,12 @@ import android.widget.ListView;
 
 import com.cooku.adapters.RecipeResultsGridAdapter;
 import com.cooku.adapters.RecipeResultsListAdapter;
+import com.cooku.data.RecipeSearcher;
 import com.cooku.models.RecipeItem;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -31,7 +34,8 @@ import java.util.List;
 public class RecipeListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM_INGREDIENTS = "ingredients";
-    private String[] ingredients;
+    private RecipeSearcher searcher;
+    private List<RecipeItem> recipes;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -57,7 +61,9 @@ public class RecipeListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            ingredients = getArguments().getStringArray(ARG_PARAM_INGREDIENTS);
+            recipes = Collections.synchronizedList(new ArrayList<RecipeItem>());
+            searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes);
+            searcher.requestRecipes();
         }
     }
 
@@ -65,22 +71,22 @@ public class RecipeListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view;
-        /*  Hard code test data */
-        ArrayList<RecipeItem> list = new ArrayList<RecipeItem>();
-        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
-        list.add(new RecipeItem("Creme Brule", "", "", ""));
-        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
-        list.add(new RecipeItem("Pad Thai", "", "", ""));
-        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
-        list.add(new RecipeItem("Creme Brule", "", "", ""));
-        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
-        list.add(new RecipeItem("Pad Thai", "", "", ""));
-        /* Hard coded recipe items with only images*/
-        List<RecipeItem> fakedata = new ArrayList<RecipeItem>();
-        fakedata.add(new RecipeItem("","http://i.imgur.com/ZLixWFT.jpg","",""));
-        fakedata.add(new RecipeItem("", "http://i.imgur.com/ZSgMm0u.jpg", "", ""));
-        fakedata.add(new RecipeItem("", "http://i.imgur.com/TWaUGEi.jpg", "", ""));
-        fakedata.add(new RecipeItem("", "http://i.imgur.com/JRWFumf.jpg", "", ""));
+//        /*  Hard code test data */
+//        ArrayList<RecipeItem> list = new ArrayList<RecipeItem>();
+//        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
+//        list.add(new RecipeItem("Creme Brule", "", "", ""));
+//        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
+//        list.add(new RecipeItem("Pad Thai", "", "", ""));
+//        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
+//        list.add(new RecipeItem("Creme Brule", "", "", ""));
+//        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
+//        list.add(new RecipeItem("Pad Thai", "", "", ""));
+//        /* Hard coded recipe items with only images*/
+//        List<RecipeItem> fakedata = new ArrayList<RecipeItem>();
+//        fakedata.add(new RecipeItem("","http://i.imgur.com/ZLixWFT.jpg","",""));
+//        fakedata.add(new RecipeItem("", "http://i.imgur.com/ZSgMm0u.jpg", "", ""));
+//        fakedata.add(new RecipeItem("", "http://i.imgur.com/TWaUGEi.jpg", "", ""));
+//        fakedata.add(new RecipeItem("", "http://i.imgur.com/JRWFumf.jpg", "", ""));
 
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -89,12 +95,12 @@ public class RecipeListFragment extends Fragment {
                 getString(R.string.pref_view_pin));
         if(viewType.equals(getString(R.string.pref_view_list))){
             view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
-            RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), list);
+            RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), recipes);
             ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
             listView.setAdapter(listSearchAdapter);
         }else {
             view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
-            RecipeResultsGridAdapter adapter = new RecipeResultsGridAdapter(getActivity(), fakedata);
+            RecipeResultsGridAdapter adapter = new RecipeResultsGridAdapter(getActivity(), recipes);
             GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
             gv.setAdapter(adapter);
         }

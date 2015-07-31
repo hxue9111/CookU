@@ -50,10 +50,10 @@ public class RecipeSearcher {
 
             @Override public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                String stringResponse = response.body().string();
 
-                new ResponseParser(recipes).execute(response.body().string());
-
-                System.out.println(response.body().string());
+                new ResponseParser(recipes).execute(stringResponse);
+                System.out.println(stringResponse);
             }
         });
     }
@@ -66,10 +66,14 @@ public class RecipeSearcher {
         @Override
         protected Void doInBackground(String ... json) {
             try {
+                System.out.println("json[0]: "+json[0]);
                 JSONObject jsonObject = new JSONObject(json[0]);
+                System.out.println("recipe list obj: "+jsonObject.toString());
                 JSONArray recipesArray = jsonObject.getJSONArray("recipes");
+                System.out.println("recipe array: "+recipesArray.toString());
                 for (int i=0; i < recipesArray.length(); i++)
                 {
+                    System.out.println("in loopz");
                     JSONObject recipeObject = recipesArray.getJSONObject(i);
                     // Pulling items from the array
                     RecipeItem recipe = new RecipeItem(
@@ -84,6 +88,10 @@ public class RecipeSearcher {
                 jse.printStackTrace();
             }
             return null;
+        }
+        @Override
+        protected void onPostExecute(Void v){
+            System.out.println("finished: "+recipes.size());
         }
     }
 }
