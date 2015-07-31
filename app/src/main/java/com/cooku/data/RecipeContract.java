@@ -43,6 +43,7 @@ public class RecipeContract {
         public static final String TABLE_NAME = "ingredient";
 
         public static final String COLUMN_INGREDIENT_NAME = "ingredient_name";
+        public static final String COLUMN_SELECTED = "is_selected";
 //        public static final Boolean Columnn
 
         public static Uri buildIngredientURI (long id) {
@@ -75,6 +76,7 @@ public class RecipeContract {
         public static final String TABLE_NAME = "recipe";
 
         public static final String COLUMN_RECIPE_URL = "recipe_url";
+
 
 
 
