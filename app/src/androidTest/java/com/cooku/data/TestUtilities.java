@@ -27,6 +27,10 @@ public class TestUtilities extends AndroidTestCase {
     static final String TEST_URL = "http://google.com";
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
+        int num = valueCursor.getColumnCount();
+//        boolean num2 = valueCursor.isNull(0);
+//        valueCursor.
+//        Boolean first = valueCursor.moveToFirst();
         assertTrue("Empty cursor returned. " + error, valueCursor.moveToFirst());
         validateCurrentRecord(error, valueCursor, expectedValues);
         valueCursor.close();
@@ -79,6 +83,14 @@ public class TestUtilities extends AndroidTestCase {
         assertTrue("Error: Failure to insert ingrdient Values", ingredientRowId != -1);
 
         return ingredientRowId;
+    }
+    static long insertRecipeValues(Context context){
+        RecipeDbHelper dbHelper = new RecipeDbHelper(context);
+        SQLiteDatabase db  = dbHelper.getWritableDatabase();
+        ContentValues testValues = TestUtilities.createRecipeValues();
+        long recipeRowId;
+        recipeRowId = db.insert(RecipeContract.RecipeEntry.TABLE_NAME, null, testValues);
+        return recipeRowId;
     }
 
     /*

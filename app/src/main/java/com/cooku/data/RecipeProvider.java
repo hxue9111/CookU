@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import com.cooku.data.RecipeContract.IngredientEntry;
 /**
  * Created by sarahford on 7/27/15.
 // */
@@ -29,11 +30,13 @@ public class RecipeProvider extends ContentProvider {
 
     static {
         sRecipeContractQueryBuilder = new SQLiteQueryBuilder();
+        sRecipeContractQueryBuilder.setTables(IngredientEntry.TABLE_NAME);
     }
 
 
     private Cursor getAllIngredientsCursor() {
-        String [] projection = {RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME};
+        String list =  sRecipeContractQueryBuilder.getTables();
+        String [] projection = {IngredientEntry.COLUMN_INGREDIENT_NAME};
         return sRecipeContractQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
                 null,
@@ -86,9 +89,9 @@ public class RecipeProvider extends ContentProvider {
         switch (match) {
             // Student: Uncomment and fill out these two cases
             case INGREDIENT:
-                return RecipeContract.IngredientEntry.CONTENT_TYPE;
+                return IngredientEntry.CONTENT_TYPE;
             case RECIPE:
-                return RecipeContract.IngredientEntry.CONTENT_TYPE;
+                return IngredientEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -106,11 +109,11 @@ public class RecipeProvider extends ContentProvider {
                 retCursor = getAllIngredientsCursor();
                 break;
             }
-            case RECIPE: {
-                //TODO Add recipe content provider methods
-                retCursor = null;
-                break;
-            }
+//            case RECIPE: {
+//                //TODO Add recipe content provider methods
+//                retCursor = null;
+//                break;
+//            }
             // "weather"
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -130,21 +133,21 @@ public class RecipeProvider extends ContentProvider {
 
         switch (match) {
             case INGREDIENT: {
-                long _id = db.insert(RecipeContract.IngredientEntry.TABLE_NAME, null, values);
+                long _id = db.insert(IngredientEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = RecipeContract.IngredientEntry.buildIngredientURI(_id);
+                    returnUri = IngredientEntry.buildIngredientURI(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case RECIPE: {
-                long _id = db.insert(RecipeContract.RecipeEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
-                    returnUri = RecipeContract.RecipeEntry.buildRecipeUri(_id);
-                else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
-                break;
-            }
+//            case RECIPE: {
+//                long _id = db.insert(RecipeEntry.TABLE_NAME, null, values);
+//                if ( _id > 0 )
+//                    returnUri = RecipeEntry.buildRecipeUri(_id);
+//                else
+//                    throw new android.database.SQLException("Failed to insert row into " + uri);
+//                break;
+//            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -162,12 +165,12 @@ public class RecipeProvider extends ContentProvider {
         switch (match) {
             case INGREDIENT:
                 rowsDeleted = db.delete(
-                        RecipeContract.IngredientEntry.TABLE_NAME, selection, selectionArgs);
+                        IngredientEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case RECIPE:
-                rowsDeleted = db.delete(
-                        RecipeContract.RecipeEntry.TABLE_NAME, selection, selectionArgs);
-                break;
+//            case RECIPE:
+//                rowsDeleted = db.delete(
+//                        RecipeEntry.TABLE_NAME, selection, selectionArgs);
+//                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -188,13 +191,13 @@ public class RecipeProvider extends ContentProvider {
 
         switch (match) {
             case INGREDIENT:
-                rowsUpdated = db.update(RecipeContract.IngredientEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(IngredientEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
-            case RECIPE:
-                rowsUpdated = db.update(RecipeContract.RecipeEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
-                break;
+//            case RECIPE:
+//                rowsUpdated = db.update(RecipeEntry.TABLE_NAME, values, selection,
+//                        selectionArgs);
+//                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -214,7 +217,7 @@ public class RecipeProvider extends ContentProvider {
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(RecipeContract.IngredientEntry.TABLE_NAME, null, value);
+                        long _id = db.insert(IngredientEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }
