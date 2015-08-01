@@ -63,10 +63,12 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onSearchTrigger(List<IngredientItem> ingredients){
-        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);
+    public void onSearchTrigger(String[] ingredients){
+        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);// Show loading animation
+
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(new String[]{"eggs","bacon"}));
+        transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
         transaction.addToBackStack(null);
         transaction.commit();
     }
