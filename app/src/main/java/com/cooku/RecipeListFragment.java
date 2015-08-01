@@ -2,6 +2,7 @@ package com.cooku;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,14 +10,18 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 
 import com.cooku.adapters.RecipeResultsGridAdapter;
 import com.cooku.adapters.RecipeResultsListAdapter;
+import com.cooku.data.RecipeSearcher;
 import com.cooku.models.RecipeItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,12 +33,13 @@ import java.util.List;
  * Use the {@link RecipeListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeListFragment extends Fragment {
+public class RecipeListFragment extends Fragment implements RecipeSearcher.RecipeSearcherCallback {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM_INGREDIENTS = "ingredients";
-    private String[] ingredients;
+    private RecipeSearcher searcher;
+    private List<RecipeItem> recipes;
     private OnFragmentInteractionListener mListener;
-
+    private BaseAdapter viewAdapter;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -57,7 +63,9 @@ public class RecipeListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            ingredients = getArguments().getStringArray(ARG_PARAM_INGREDIENTS);
+            recipes = Collections.synchronizedList(new ArrayList<RecipeItem>());
+            searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes,this);
+            searcher.requestRecipes();
         }
     }
 
@@ -65,22 +73,22 @@ public class RecipeListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view;
-        /*  Hard code test data */
-        ArrayList<RecipeItem> list = new ArrayList<RecipeItem>();
-        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
-        list.add(new RecipeItem("Creme Brule", "", "", ""));
-        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
-        list.add(new RecipeItem("Pad Thai", "", "", ""));
-        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
-        list.add(new RecipeItem("Creme Brule", "", "", ""));
-        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
-        list.add(new RecipeItem("Pad Thai", "", "", ""));
-        /* Hard coded recipe items with only images*/
-        List<RecipeItem> fakedata = new ArrayList<RecipeItem>();
-        fakedata.add(new RecipeItem("","http://i.imgur.com/ZLixWFT.jpg","",""));
-        fakedata.add(new RecipeItem("", "http://i.imgur.com/ZSgMm0u.jpg", "", ""));
-        fakedata.add(new RecipeItem("", "http://i.imgur.com/TWaUGEi.jpg", "", ""));
-        fakedata.add(new RecipeItem("", "http://i.imgur.com/JRWFumf.jpg", "", ""));
+//        /*  Hard code test data */
+//        ArrayList<RecipeItem> list = new ArrayList<RecipeItem>();
+//        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
+//        list.add(new RecipeItem("Creme Brule", "", "", ""));
+//        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
+//        list.add(new RecipeItem("Pad Thai", "", "", ""));
+//        list.add(new RecipeItem("Mac n Cheese", "", "", ""));
+//        list.add(new RecipeItem("Creme Brule", "", "", ""));
+//        list.add(new RecipeItem("Berry Lemonade", "", "", ""));
+//        list.add(new RecipeItem("Pad Thai", "", "", ""));
+//        /* Hard coded recipe items with only images*/
+//        List<RecipeItem> fakedata = new ArrayList<RecipeItem>();
+//        fakedata.add(new RecipeItem("","http://i.imgur.com/ZLixWFT.jpg","",""));
+//        fakedata.add(new RecipeItem("", "http://i.imgur.com/ZSgMm0u.jpg", "", ""));
+//        fakedata.add(new RecipeItem("", "http://i.imgur.com/TWaUGEi.jpg", "", ""));
+//        fakedata.add(new RecipeItem("", "http://i.imgur.com/JRWFumf.jpg", "", ""));
 
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -89,20 +97,47 @@ public class RecipeListFragment extends Fragment {
                 getString(R.string.pref_view_pin));
         if(viewType.equals(getString(R.string.pref_view_list))){
             view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
-            RecipeResultsListAdapter listSearchAdapter = new RecipeResultsListAdapter(getActivity(), list);
+            viewAdapter = new RecipeResultsListAdapter(getActivity(), recipes);
             ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
-            listView.setAdapter(listSearchAdapter);
+            listView.setAdapter(viewAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    // Create new fragment and transaction
+                    Fragment newFragment = new RecipeDetailsFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.recipe_search_fragment, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
         }else {
             view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
-            RecipeResultsGridAdapter adapter = new RecipeResultsGridAdapter(getActivity(), fakedata);
+            viewAdapter = new RecipeResultsGridAdapter(getActivity(), recipes);
             GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
-            gv.setAdapter(adapter);
+            gv.setAdapter(viewAdapter);
+            gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                   // Toast.makeText(getActivity(), "Will this print grid?", Toast.LENGTH_SHORT).show();
+                    Fragment newFragment = new RecipeDetailsFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.recipe_search_fragment, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
         }
+
+
 
 
         return view;
     }
-
+    @Override
+    public void onFinishedLoading(){
+        getActivity().findViewById(R.id.loading_animation).setVisibility(View.GONE);
+        viewAdapter.notifyDataSetChanged();
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

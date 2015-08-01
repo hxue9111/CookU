@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.cooku.R;
 import com.cooku.models.RecipeItem;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Julie on 7/28/2015.
@@ -22,9 +22,9 @@ public class RecipeResultsListAdapter extends ArrayAdapter<RecipeItem>
 {
 
     private final Context context;
-    private final ArrayList<RecipeItem> itemsList;
+    private final List<RecipeItem> itemsList;
 
-    public RecipeResultsListAdapter (Context context, ArrayList<RecipeItem> itemsList)
+    public RecipeResultsListAdapter (Context context, List<RecipeItem> itemsList)
     {
         super(context, 0, itemsList);
         this.context = context;
