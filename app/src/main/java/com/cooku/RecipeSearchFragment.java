@@ -1,20 +1,21 @@
 package com.cooku;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.cooku.adapters.IngredientListAdapter;
-import com.cooku.models.IngredientItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.cooku.data.RecipeContract;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,13 +25,16 @@ import java.util.List;
  * Use the {@link RecipeSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeSearchFragment extends Fragment implements View.OnClickListener{
+public class RecipeSearchFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     /*Carries instance of parent Activity, used to do callbacks to parent*/
     private OnFragmentInteractionListener mListener;
+    private static final int INGREDIENT_LOADER = 0;
+    IngredientListAdapter mIngredientListAdapter;
+
     /*List of ingredients (FOR TESTING)*/
-    private ArrayList<IngredientItem> ingredients = new ArrayList<IngredientItem>();
     private Context mContext;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -55,56 +59,10 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
 
-        /*Test Data*/
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-
-        IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(getActivity(), null, 0);
-        /*Attach adapter to the listView*/
-        ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
-        listView.setAdapter(ingredientListAdapter);
-
-        /*Attach onClickListener to the search button*/
-        Button searchButton = (Button) view.findViewById(R.id.search_recipes_button);
-        searchButton.setOnClickListener(this);
-
-        return view;
-    }
 
     /*The following method sets up the buttons within this fragment*/
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.search_recipes_button:
 
-                String[] checkedIngredients = new String[]{"eggs","bacon"};
-
-                mListener.onSearchTrigger(checkedIngredients);
-                break;
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -137,63 +95,50 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         public void onSearchTrigger(String[] ingredients);
     }
     //TODO: fix this to create cursor loader
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // The CursorAdapter will take data from our cursor and populate the ListView.
-//        mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
-//
-//        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//
-//        // Get a reference to the ListView, and attach this adapter to it.
-//        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-//        listView.setAdapter(mForecastAdapter);
-//
-//        return rootView;
-//    }
-//
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        getLoaderManager().initLoader(FORECAST_LOADER, null, this);
-//        super.onActivityCreated(savedInstanceState);
-//    }
-//
-//    private void updateWeather() {
-//        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
-//        String location = Utility.getPreferredLocation(getActivity());
-//        weatherTask.execute(location);
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        updateWeather();
-//    }
-//
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-//        String locationSetting = Utility.getPreferredLocation(getActivity());
-//
-//        // Sort order:  Ascending, by date.
-//        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
-//        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
-//                locationSetting, System.currentTimeMillis());
-//
-//        return new CursorLoader(getActivity(),
-//                weatherForLocationUri,
-//                null,
-//                null,
-//                null,
-//                sortOrder);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-//        mForecastAdapter.swapCursor(cursor);
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-//        mForecastAdapter.swapCursor(null);
-//    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
+
+        // The CursorAdapter will take data from our cursor and populate the ListView.
+        mIngredientListAdapter = new IngredientListAdapter(getActivity(), null, 0);
+        ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
+
+
+        // Get a reference to the ListView, and attach this adapter to it.
+        listView.setAdapter(mIngredientListAdapter);
+        //TODO We may have to put the search button in a seperate fragment or find a different way to initialize it?
+//        Button searchButton = (Button) view.findViewById(R.id.search_recipes_button);
+//        searchButton.setOnClickListener();
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(INGREDIENT_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        Uri ingredientUri = RecipeContract.IngredientEntry.getAllIngredientsURI();
+        return new CursorLoader(getActivity(),ingredientUri,null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mIngredientListAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mIngredientListAdapter.swapCursor(null);
+    }
 }

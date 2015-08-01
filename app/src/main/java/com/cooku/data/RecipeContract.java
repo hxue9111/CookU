@@ -49,6 +49,9 @@ public class RecipeContract {
         public static Uri buildIngredientURI (long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+        public static Uri getAllIngredientsURI (){
+            return CONTENT_URI.buildUpon().appendPath(PATH_INGREDIENT + "/*").build();
+        }
 
         public static Uri buildIngredientURI(String ingredientName) {
             return CONTENT_URI.buildUpon().appendPath(ingredientName).build();

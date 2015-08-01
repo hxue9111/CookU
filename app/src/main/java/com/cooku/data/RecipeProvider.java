@@ -20,6 +20,7 @@ public class RecipeProvider extends ContentProvider {
 
     public static final int INGREDIENT = 100;
     public static final int RECIPE = 101;
+    public static final int INGREDIENT_ALL = 102;
 
     /**
      * queries needed, all recipes and all ingredients **
@@ -35,8 +36,8 @@ public class RecipeProvider extends ContentProvider {
 
 
     private Cursor getAllIngredientsCursor() {
-        String list =  sRecipeContractQueryBuilder.getTables();
-        String [] projection = {IngredientEntry.COLUMN_INGREDIENT_NAME};
+        //TODO projection should also have is_selected column but we need to add a way to add things first
+        String [] projection = {IngredientEntry._ID, IngredientEntry.COLUMN_INGREDIENT_NAME};
         return sRecipeContractQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
                 null,
@@ -65,6 +66,8 @@ public class RecipeProvider extends ContentProvider {
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, RecipeContract.PATH_INGREDIENT, INGREDIENT);
         matcher.addURI(authority, RecipeContract.PATH_RECIPE, RECIPE);
+
+        matcher.addURI(authority, RecipeContract.PATH_INGREDIENT + "/*", INGREDIENT_ALL);
 
         return matcher;
     }
@@ -104,7 +107,7 @@ public class RecipeProvider extends ContentProvider {
         // and query the database accordingly.
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            case INGREDIENT:
+            case INGREDIENT_ALL:
             {
                 retCursor = getAllIngredientsCursor();
                 break;
