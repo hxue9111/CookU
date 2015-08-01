@@ -98,7 +98,10 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_recipes_button:
-                mListener.onSearchTrigger(ingredients);
+
+                String[] checkedIngredients = new String[]{"eggs","bacon"};
+
+                mListener.onSearchTrigger(checkedIngredients);
                 break;
         }
     }
@@ -131,7 +134,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onSearchTrigger(List<IngredientItem> ingredients);
+        public void onSearchTrigger(String[] ingredients);
     }
 
 }
