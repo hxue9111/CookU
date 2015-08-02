@@ -134,8 +134,8 @@ public class RecipeSearchFragment extends Fragment
     }
     /*Adds ingredient to DB*/
     private void addIngredient(String ingredient){
-        //TODO: Add ingredient to DB with ingredient_name= ingredient and checked=false
-        //getActivity().getContentResolver().insert(Uri, ingredient);
+        //TODO: Add ingredient to DB with ingredient_name= ingredient and checked=false (might need async task)
+        //
     }
     /*The following method sets up the buttons within this fragment*/
     @Override
