@@ -10,7 +10,7 @@
 
     <!-- RecipeSearchLayout Strings -->
 
-    <string name="ingredient_add_label">Ingredient: </string>
+    <string name="enter_ingredient_hint">Ingredient: </string>
     <string name="ingredient_add_button">Add the ingredient.</string>
     <string name="recipe_search_button">Search for recipes</string>
     <string-array name="test_ingreds">

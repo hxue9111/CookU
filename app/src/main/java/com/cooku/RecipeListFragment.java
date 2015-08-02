@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cooku.adapters.RecipeResultsGridAdapter;
 import com.cooku.adapters.RecipeResultsListAdapter;
@@ -118,7 +119,7 @@ public class RecipeListFragment extends Fragment implements RecipeSearcher.Recip
             gv.setAdapter(viewAdapter);
             gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                   // Toast.makeText(getActivity(), "Will this print grid?", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Will this print grid?", Toast.LENGTH_SHORT).show();
                     Fragment newFragment = new RecipeDetailsFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.recipe_search_fragment, newFragment);

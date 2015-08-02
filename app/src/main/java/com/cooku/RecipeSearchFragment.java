@@ -1,21 +1,25 @@
 package com.cooku;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.cooku.adapters.IngredientListAdapter;
 import com.cooku.data.RecipeContract;
+import com.cooku.models.IngredientItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,15 +29,16 @@ import com.cooku.data.RecipeContract;
  * Use the {@link RecipeSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeSearchFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class RecipeSearchFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
 
     /*Carries instance of parent Activity, used to do callbacks to parent*/
     private OnFragmentInteractionListener mListener;
+
     private static final int INGREDIENT_LOADER = 0;
     IngredientListAdapter mIngredientListAdapter;
 
     /*List of ingredients (FOR TESTING)*/
-    private Context mContext;
+    private ArrayList<IngredientItem> ingredients = new ArrayList<IngredientItem>();
 
     /**
      * Use this factory method to create a new instance of
@@ -59,10 +64,56 @@ public class RecipeSearchFragment extends Fragment implements LoaderManager.Load
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
 
+        /*Test Data*/
+        ingredients.add(new IngredientItem("Brocolli",true));
+        ingredients.add(new IngredientItem("Carrot",false));
+        ingredients.add(new IngredientItem("Rice",true));
+        ingredients.add(new IngredientItem("Chicken",true));
+        ingredients.add(new IngredientItem("Beef",false));
+        ingredients.add(new IngredientItem("Cheese",true));
+        ingredients.add(new IngredientItem("Brocolli",true));
+        ingredients.add(new IngredientItem("Carrot",false));
+        ingredients.add(new IngredientItem("Rice",true));
+        ingredients.add(new IngredientItem("Chicken",true));
+        ingredients.add(new IngredientItem("Beef",false));
+        ingredients.add(new IngredientItem("Cheese",true));
+        ingredients.add(new IngredientItem("Brocolli",true));
+        ingredients.add(new IngredientItem("Carrot",false));
+        ingredients.add(new IngredientItem("Rice",true));
+        ingredients.add(new IngredientItem("Chicken",true));
+        ingredients.add(new IngredientItem("Beef",false));
+        ingredients.add(new IngredientItem("Cheese",true));
+
+        mIngredientListAdapter  = new IngredientListAdapter(getActivity(),null, 0);
+        /*Attach adapter to the listView*/
+        ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
+        listView.setAdapter(mIngredientListAdapter);
+
+        /*Attach onClickListener to the search button*/
+        Button searchButton = (Button) view.findViewById(R.id.search_recipes_button);
+        searchButton.setOnClickListener(this);
+
+        return view;
+    }
 
     /*The following method sets up the buttons within this fragment*/
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.search_recipes_button:
 
+                String[] checkedIngredients = new String[]{"eggs","bacon"};
+
+                mListener.onSearchTrigger(checkedIngredients);
+                break;
+        }
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -79,39 +130,6 @@ public class RecipeSearchFragment extends Fragment implements LoaderManager.Load
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        public void onSearchTrigger(String[] ingredients);
-    }
-    //TODO: fix this to create cursor loader
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
-
-        // The CursorAdapter will take data from our cursor and populate the ListView.
-        mIngredientListAdapter = new IngredientListAdapter(getActivity(), null, 0);
-        ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
-
-
-        // Get a reference to the ListView, and attach this adapter to it.
-        listView.setAdapter(mIngredientListAdapter);
-        //TODO We may have to put the search button in a seperate fragment or find a different way to initialize it?
-//        Button searchButton = (Button) view.findViewById(R.id.search_recipes_button);
-//        searchButton.setOnClickListener();
-
-        return view;
     }
 
     @Override
@@ -141,4 +159,19 @@ public class RecipeSearchFragment extends Fragment implements LoaderManager.Load
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mIngredientListAdapter.swapCursor(null);
     }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        public void onSearchTrigger(String[] ingredients);
+    }
+
 }
