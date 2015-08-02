@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,8 +28,6 @@ import com.cooku.adapters.IngredientListAdapter;
 import com.cooku.data.RecipeContract;
 import com.cooku.models.IngredientItem;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,9 +47,6 @@ public class RecipeSearchFragment extends Fragment
 
     private static final int INGREDIENT_LOADER = 0;
     IngredientListAdapter mIngredientListAdapter;
-
-    /*List of ingredients (FOR TESTING)*/
-    private ArrayList<IngredientItem> ingredients = new ArrayList<IngredientItem>();
 
     /**
      * Use this factory method to create a new instance of
@@ -81,26 +78,6 @@ public class RecipeSearchFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
 
-        /*Test Data*/
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-
         mIngredientListAdapter  = new IngredientListAdapter(getActivity(),null, 0);
         /*Attach adapter to the listView*/
         ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
@@ -125,8 +102,7 @@ public class RecipeSearchFragment extends Fragment
             addIngredient(v.getText().toString());
 
             /*Closes keyboard after enter*/
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            closeKeyboard(v);
 
             handled = true;
         }
@@ -142,6 +118,7 @@ public class RecipeSearchFragment extends Fragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_recipes_button:
+                closeKeyboard(v);
 
                 String[] checkedIngredients = new String[]{"eggs","bacon"};
 
@@ -178,7 +155,13 @@ public class RecipeSearchFragment extends Fragment
     public void onStart() {
         super.onStart();
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ab.setTitle(R.string.app_name);
+        ab.setDisplayHomeAsUpEnabled(false);
+    }
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Uri ingredientUri = RecipeContract.IngredientEntry.getAllIngredientsURI();
@@ -194,7 +177,11 @@ public class RecipeSearchFragment extends Fragment
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mIngredientListAdapter.swapCursor(null);
     }
-
+    public void closeKeyboard(View v){
+        /*Closes keyboard*/
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

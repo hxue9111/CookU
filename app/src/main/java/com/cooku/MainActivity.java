@@ -71,6 +71,7 @@ public class MainActivity extends ActionBarActivity
         transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
         transaction.addToBackStack(null);
         transaction.commit();
+
     }
 
     @Override
@@ -81,7 +82,11 @@ public class MainActivity extends ActionBarActivity
             super.onBackPressed();
         }
     }
-
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return true;
+    }
     public void onFragmentInteraction(Uri uri){
     }
 }
