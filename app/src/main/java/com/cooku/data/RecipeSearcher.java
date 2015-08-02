@@ -33,7 +33,6 @@ public class RecipeSearcher {
         this.BASE_URL ="http://www.cookcucina.com/v1/recipes/search?ingredients=" +
                         android.text.TextUtils.join(",",ingredients);
         this.callback = callback;
-        //http://www.cookcucina.com/v1/recipes/search?ingredients=“..."
     }
 
     public void requestRecipes(){

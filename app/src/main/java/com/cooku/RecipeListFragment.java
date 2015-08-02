@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,7 +164,14 @@ public class RecipeListFragment extends Fragment implements RecipeSearcher.Recip
         super.onDetach();
         mListener = null;
     }
-
+    @Override
+    public void onStart() {
+        super.onResume();
+        // Set title
+        ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ab.setTitle(R.string.recipe_search_title);
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

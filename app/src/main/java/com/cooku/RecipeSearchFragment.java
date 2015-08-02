@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,8 +28,6 @@ import com.cooku.adapters.IngredientListAdapter;
 import com.cooku.data.RecipeContract;
 import com.cooku.models.IngredientItem;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,9 +47,6 @@ public class RecipeSearchFragment extends Fragment
 
     private static final int INGREDIENT_LOADER = 0;
     IngredientListAdapter mIngredientListAdapter;
-
-    /*List of ingredients (FOR TESTING)*/
-    private ArrayList<IngredientItem> ingredients = new ArrayList<IngredientItem>();
 
     /**
      * Use this factory method to create a new instance of
@@ -80,26 +77,6 @@ public class RecipeSearchFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
-
-        /*Test Data*/
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
-        ingredients.add(new IngredientItem("Brocolli",true));
-        ingredients.add(new IngredientItem("Carrot",false));
-        ingredients.add(new IngredientItem("Rice",true));
-        ingredients.add(new IngredientItem("Chicken",true));
-        ingredients.add(new IngredientItem("Beef",false));
-        ingredients.add(new IngredientItem("Cheese",true));
 
         mIngredientListAdapter  = new IngredientListAdapter(getActivity(),null, 0);
         /*Attach adapter to the listView*/
@@ -178,7 +155,13 @@ public class RecipeSearchFragment extends Fragment
     public void onStart() {
         super.onStart();
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ab.setTitle(R.string.app_name);
+        ab.setDisplayHomeAsUpEnabled(false);
+    }
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Uri ingredientUri = RecipeContract.IngredientEntry.getAllIngredientsURI();
