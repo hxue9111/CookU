@@ -125,8 +125,7 @@ public class RecipeSearchFragment extends Fragment
             addIngredient(v.getText().toString());
 
             /*Closes keyboard after enter*/
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            closeKeyboard(v);
 
             handled = true;
         }
@@ -142,6 +141,7 @@ public class RecipeSearchFragment extends Fragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_recipes_button:
+                closeKeyboard(v);
 
                 String[] checkedIngredients = new String[]{"eggs","bacon"};
 
@@ -194,7 +194,11 @@ public class RecipeSearchFragment extends Fragment
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mIngredientListAdapter.swapCursor(null);
     }
-
+    public void closeKeyboard(View v){
+        /*Closes keyboard*/
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
