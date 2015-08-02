@@ -22,18 +22,19 @@
             android:layout_marginLeft="3dp"
             android:layout_marginStart="3dp"
             android:layout_weight="1"
-            android:inputType="textAutoComplete"
+            android:imeOptions="actionSend"
+            android:inputType="text"
             android:hint="@string/enter_ingredient_hint"/>
 
-        <ImageButton
-            android:id="@+id/button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_input_add"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/ingredient_add_button"/>
+        <!--<ImageButton-->
+            <!--android:id="@+id/button"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@android:drawable/ic_input_add"-->
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:contentDescription="@string/ingredient_add_button"/>-->
     </LinearLayout>
 
     <ListView

@@ -8,11 +8,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cooku.adapters.IngredientListAdapter;
 import com.cooku.data.RecipeContract;
@@ -29,7 +35,10 @@ import java.util.List;
  * Use the {@link RecipeSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeSearchFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
+public class RecipeSearchFragment extends Fragment
+        implements View.OnClickListener,
+        LoaderManager.LoaderCallbacks<Cursor>,
+        TextView.OnEditorActionListener{
 
     /*Carries instance of parent Activity, used to do callbacks to parent*/
     private OnFragmentInteractionListener mListener;
@@ -95,13 +104,30 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
         listView.setAdapter(mIngredientListAdapter);
 
+        /*Attach onEditorAction to the EditText field*/
+        TextView ingredientField = (EditText) view.findViewById(R.id.enter_ingredient_field);
+        ingredientField.setOnEditorActionListener(this);
         /*Attach onClickListener to the search button*/
         Button searchButton = (Button) view.findViewById(R.id.search_recipes_button);
         searchButton.setOnClickListener(this);
 
         return view;
     }
-
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        boolean handled = false;
+        if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE ||
+                actionId == EditorInfo.IME_ACTION_GO) {
+            Toast.makeText(getActivity(),v.getText().toString() , Toast.LENGTH_SHORT).show();
+            addIngredient(v.getText().toString());
+            handled = true;
+        }
+        return handled;
+    }
+    private void addIngredient(String ingredient){
+        //TODO: Add ingredient to DB with ingredient_name= ingredient and checked=false
+        //getActivity().getContentResolver().insert(Uri, ingredient);
+    }
     /*The following method sets up the buttons within this fragment*/
     @Override
     public void onClick(View v) {
