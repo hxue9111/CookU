@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,7 +159,7 @@ public class RecipeSearchFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setTitle(R.string.app_name);
         ab.setDisplayHomeAsUpEnabled(false);
     }

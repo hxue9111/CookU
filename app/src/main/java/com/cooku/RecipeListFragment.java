@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -168,7 +169,7 @@ public class RecipeListFragment extends Fragment implements RecipeSearcher.Recip
     public void onStart() {
         super.onResume();
         // Set title
-        ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setTitle(R.string.recipe_search_title);
         ab.setDisplayHomeAsUpEnabled(true);
     }
