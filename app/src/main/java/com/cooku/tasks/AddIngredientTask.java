@@ -11,7 +11,7 @@ import com.cooku.data.RecipeContract;
 /**
  * Created by sarahford on 8/2/15.
  */
-public class AddIngredientTask extends AsyncTask<String, Void, Void> {
+public class AddIngredientTask extends AsyncTask<Object, Void, Void> {
     private final String LOG_TAG = AddIngredientTask.class.getSimpleName();
 
     private final Context mContext;
@@ -47,8 +47,8 @@ public class AddIngredientTask extends AsyncTask<String, Void, Void> {
 
 
     @Override
-    protected Void doInBackground(String... params) {
-        addIngredient(params[0]); //not sure if this is right but wil use debugger to check
+    protected Void doInBackground(Object... params) {
+        addIngredient(params[0].toString()); //not sure if this is right but wil use debugger to check
         return null;
     }
 

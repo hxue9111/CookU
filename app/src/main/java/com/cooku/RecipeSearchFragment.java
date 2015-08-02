@@ -1,17 +1,17 @@
 package com.cooku;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.cooku.adapters.IngredientListAdapter;
 import com.cooku.data.RecipeContract;
-import com.cooku.models.IngredientItem;
+import com.cooku.tasks.AddIngredientTask;
 
 
 /**
@@ -110,8 +110,9 @@ public class RecipeSearchFragment extends Fragment
     }
     /*Adds ingredient to DB*/
     private void addIngredient(String ingredient){
-        //TODO: Add ingredient to DB with ingredient_name= ingredient and checked=false (might need async task)
-        //
+        AsyncTask task = new AddIngredientTask(getActivity());
+        task.execute(ingredient);
+
     }
     /*The following method sets up the buttons within this fragment*/
     @Override
