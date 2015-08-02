@@ -2,6 +2,7 @@ package com.cooku;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -119,11 +121,18 @@ public class RecipeSearchFragment extends Fragment
         if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE ||
                 actionId == EditorInfo.IME_ACTION_GO) {
             Toast.makeText(getActivity(),v.getText().toString() , Toast.LENGTH_SHORT).show();
+            /*Adds ingredient to DB*/
             addIngredient(v.getText().toString());
+
+            /*Closes keyboard after enter*/
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
             handled = true;
         }
         return handled;
     }
+    /*Adds ingredient to DB*/
     private void addIngredient(String ingredient){
         //TODO: Add ingredient to DB with ingredient_name= ingredient and checked=false
         //getActivity().getContentResolver().insert(Uri, ingredient);
