@@ -2,11 +2,14 @@ package com.cooku.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cooku.R;
@@ -48,12 +51,27 @@ public class IngredientListAdapter extends CursorAdapter{
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-            TextView ingName = (TextView) view.findViewById(R.id.ingredient_name);
-            CheckBox toggle= (CheckBox) view.findViewById(R.id.ingredient_checkbox);
-            ingName.setText(cursor.getString(cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME)));
-            int isChecked = cursor.getInt(cursor.getColumnIndex(IngredientEntry.COLUMN_SELECTED));
-            boolean setValue = isChecked == 1;
-            toggle.setChecked(setValue);
+        String ingredientName = cursor.getString(cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME));
+        boolean ingredientChecked = cursor.getInt(cursor.getColumnIndex(IngredientEntry.COLUMN_SELECTED)) == 1;
+
+        TextView ingName = (TextView) view.findViewById(R.id.ingredient_name);
+        CheckBox toggle= (CheckBox) view.findViewById(R.id.ingredient_checkbox);
+        ingName.setText(ingredientName);
+        toggle.setChecked(ingredientChecked);
+
+        ImageButton delete = (ImageButton)view.findViewById(R.id.ingredient_delete);
+        delete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //TODO: delete ingredient with name ingredientName
+            }
+        });
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean checked){
+                //TODO: update ingredient with checked
+            }
+        });
     }
 
 }

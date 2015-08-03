@@ -95,8 +95,8 @@ public class RecipeSearchFragment extends Fragment
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         boolean handled = false;
-        if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE ||
-                actionId == EditorInfo.IME_ACTION_GO) {
+        if ((actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE ||
+                actionId == EditorInfo.IME_ACTION_GO) && v.getText().length() > 0) {
             Toast.makeText(getActivity(),v.getText().toString() , Toast.LENGTH_SHORT).show();
             /*Adds ingredient to DB*/
             addIngredient(v.getText().toString());
