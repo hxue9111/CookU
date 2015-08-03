@@ -11,13 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.cooku.models.IngredientItem;
-
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
-                RecipeDetailsFragment.OnFragmentInteractionListener,
+                RecipeDetailsFragment.OnItemClickListener,
                 RecipeListFragment.OnFragmentInteractionListener{
 
     @Override
@@ -88,5 +84,15 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void onFragmentInteraction(Uri uri){
+    }
+
+    @Override
+    public void onItemClick() {
+        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);// Show loading animation
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance("www.ilovefood.com"));
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

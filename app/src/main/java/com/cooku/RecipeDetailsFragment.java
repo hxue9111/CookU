@@ -2,49 +2,42 @@ package com.cooku;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.net.Uri;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RecipeDetailsFragment.OnFragmentInteractionListener} interface
+ * {@link RecipeDetailsFragment.OnItemClickListener} interface
  * to handle interaction events.
  * Use the {@link RecipeDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeDetailsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class RecipeDetailsFragment extends Fragment
+        implements AdapterView.OnItemClickListener{
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    private static final String URL = "www.ilovefood.com";
+    private String url;
+    private OnItemClickListener mListener;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param url Parameter 1.
      * @return A new instance of fragment RecipeDetailsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static RecipeDetailsFragment newInstance(String param1, String param2) {
+    public static RecipeDetailsFragment newInstance(String url) {
         RecipeDetailsFragment fragment = new RecipeDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(URL, url);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +50,7 @@ public class RecipeDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            url = getArguments().getString(URL);
         }
     }
 
@@ -72,11 +64,20 @@ public class RecipeDetailsFragment extends Fragment {
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         myWebView.setWebViewClient(new MyWebViewClient());
-        myWebView.loadUrl("http://www.dailypuppy.com/");
-
+        myWebView.loadUrl(URL);
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        view.setVisibility(View.VISIBLE);// Show loading animation
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance("www.ilovefood.com"));
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -88,9 +89,9 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(String url) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onItemClick();
         }
     }
 
@@ -98,7 +99,7 @@ public class RecipeDetailsFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnItemClickListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -121,9 +122,9 @@ public class RecipeDetailsFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+
+    public interface OnItemClickListener {
+        public void onItemClick();
     }
 
 }
