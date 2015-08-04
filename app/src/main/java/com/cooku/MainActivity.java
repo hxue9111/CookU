@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cooku.models.RecipeItem;
+
 public class MainActivity extends AppCompatActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
                 RecipeDetailsFragment.OnFragmentInteractionListener,
@@ -87,11 +89,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRecipeClick() {
+    public void onRecipeClick(RecipeItem recipe) {
         this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance("www.ilovefood.com"));
+        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance(recipe));
         transaction.addToBackStack(null);
         transaction.commit();
     }

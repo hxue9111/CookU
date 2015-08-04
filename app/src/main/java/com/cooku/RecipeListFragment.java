@@ -130,7 +130,7 @@ public class RecipeListFragment extends Fragment
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         view.setVisibility(View.VISIBLE);// Show loading animation
 
 //        FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -139,7 +139,8 @@ public class RecipeListFragment extends Fragment
 //        transaction.commit();
 
         /* Call the fragment transaction in onRecipeClick() in MainActivity */
-        mListener.onRecipeClick();
+        RecipeItem item = (RecipeItem) adapterView.getAdapter().getItem(position);
+        mListener.onRecipeClick(item);
     }
 
     /**
@@ -153,7 +154,7 @@ public class RecipeListFragment extends Fragment
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnRecipeClickListener {
-        public void onRecipeClick();
+        public void onRecipeClick(RecipeItem recipe);
     }
 
 

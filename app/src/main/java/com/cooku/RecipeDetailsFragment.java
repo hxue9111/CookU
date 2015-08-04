@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.cooku.models.RecipeItem;
 
 
 /**
@@ -21,21 +25,17 @@ import android.webkit.WebViewClient;
  */
 public class RecipeDetailsFragment extends Fragment {
 
-    private static final String URL = "www.ilovefood.com";
-    private String url;
+    private static final String URL = "url";
+    private static final String NAME = "name";
+    private String recipeUrl;
+    private String recipeName;
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param url Parameter 1.
-     * @return A new instance of fragment RecipeDetailsFragment.
-     */
-    public static RecipeDetailsFragment newInstance(String url) {
+    public static RecipeDetailsFragment newInstance(RecipeItem recipe) {
         RecipeDetailsFragment fragment = new RecipeDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(URL, url);
+        args.putString(URL, recipe.getSourceUrl());
+        args.putString(NAME, recipe.getName());
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,7 +48,8 @@ public class RecipeDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            url = getArguments().getString(URL);
+            recipeUrl = getArguments().getString(URL);
+            recipeName = getArguments().getString(NAME);
         }
     }
 
@@ -61,9 +62,10 @@ public class RecipeDetailsFragment extends Fragment {
         WebView myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
         myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        myWebView.loadUrl(URL);
-
+        myWebView.getSettings().setBuiltInZoomControls(true);
+        myWebView.getSettings().setDisplayZoomControls(false);
+        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_INSET);
+        myWebView.loadUrl(recipeUrl);
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -95,7 +97,14 @@ public class RecipeDetailsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
+    @Override
+    public void onStart() {
+        super.onResume();
+        // Set title
+        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ab.setTitle(recipeName);
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
