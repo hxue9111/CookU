@@ -29,6 +29,7 @@ public class RecipeDetailsFragment extends Fragment {
     private static final String NAME = "name";
     private String recipeUrl;
     private String recipeName;
+    private WebView myWebView;
     private OnFragmentInteractionListener mListener;
 
     public static RecipeDetailsFragment newInstance(RecipeItem recipe) {
@@ -59,7 +60,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         /* Set the reciple details page to fixed site */
         View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
-        WebView myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
+        myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
         myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.getSettings().setBuiltInZoomControls(true);
@@ -77,7 +78,10 @@ public class RecipeDetailsFragment extends Fragment {
         }
         @Override
         public void onPageFinished(WebView view, String url){
-            ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
+            MainActivity activity = ((MainActivity)getActivity());
+
+            if(activity != null)
+                activity.toggleLoadAnimation(View.GONE);
         }
     }
 
@@ -96,6 +100,8 @@ public class RecipeDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        myWebView.stopLoading();
+        ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
     }
     @Override
     public void onStart() {
