@@ -11,32 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.cooku.models.IngredientItem;
-
-import java.util.List;
+import com.cooku.models.RecipeItem;
 
 public class MainActivity extends AppCompatActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
                 RecipeDetailsFragment.OnFragmentInteractionListener,
-                RecipeListFragment.OnFragmentInteractionListener{
+        RecipeListFragment.OnRecipeClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        String viewType = sharedPrefs.getString(
-                getString(R.string.pref_view_key),
-                getString(R.string.pref_view_pin));
-
-//        Log.w("viewType", viewType);
-
-
-//        Fragment newFragment = new RecipeListFragment();
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.recipe_search_fragment, newFragment).commit();
     }
 
     @Override
@@ -64,7 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSearchTrigger(String[] ingredients){
-        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);// Show loading animation
+        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -88,5 +73,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void onFragmentInteraction(Uri uri){
+    }
+
+    @Override
+    public void onRecipeClick(RecipeItem recipe) {
+        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance(recipe));
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+    public void toggleLoadAnimation(int visible){ //View.Gone or View.Visisble
+        this.findViewById(R.id.loading_animation).setVisibility(visible);
     }
 }

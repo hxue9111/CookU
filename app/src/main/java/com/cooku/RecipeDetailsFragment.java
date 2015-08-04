@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.cooku.models.RecipeItem;
 
 
 /**
@@ -20,31 +24,19 @@ import android.webkit.WebViewClient;
  * create an instance of this fragment.
  */
 public class RecipeDetailsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private static final String URL = "url";
+    private static final String NAME = "name";
+    private String recipeUrl;
+    private String recipeName;
+    private WebView myWebView;
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipeDetailsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RecipeDetailsFragment newInstance(String param1, String param2) {
+    public static RecipeDetailsFragment newInstance(RecipeItem recipe) {
         RecipeDetailsFragment fragment = new RecipeDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(URL, recipe.getSourceUrl());
+        args.putString(NAME, recipe.getName());
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +49,8 @@ public class RecipeDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            recipeUrl = getArguments().getString(URL);
+            recipeName = getArguments().getString(NAME);
         }
     }
 
@@ -68,29 +60,28 @@ public class RecipeDetailsFragment extends Fragment {
 
         /* Set the reciple details page to fixed site */
         View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
-        WebView myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
         myWebView.setWebViewClient(new MyWebViewClient());
-        myWebView.loadUrl("http://www.dailypuppy.com/");
-
-
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.getSettings().setBuiltInZoomControls(true);
+        myWebView.getSettings().setDisplayZoomControls(false);
+        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_INSET);
+        myWebView.loadUrl(recipeUrl);
         // Inflate the layout for this fragment
         return rootView;
     }
 
     private class MyWebViewClient extends WebViewClient {
-        @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
         }
-    }
+        @Override
+        public void onPageFinished(WebView view, String url){
+            MainActivity activity = ((MainActivity)getActivity());
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            if(activity != null)
+                activity.toggleLoadAnimation(View.GONE);
         }
     }
 
@@ -109,8 +100,17 @@ public class RecipeDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        myWebView.stopLoading();
+        ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
     }
-
+    @Override
+    public void onStart() {
+        super.onResume();
+        // Set title
+        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ab.setTitle(recipeName);
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -125,5 +125,4 @@ public class RecipeDetailsFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }
