@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance("www.ilovefood.com"));
+        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance("http://www.ilovefood.com/"));
         transaction.addToBackStack(null);
         transaction.commit();
     }

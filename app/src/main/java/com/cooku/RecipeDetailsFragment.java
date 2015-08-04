@@ -21,7 +21,7 @@ import android.webkit.WebViewClient;
  */
 public class RecipeDetailsFragment extends Fragment {
 
-    private static final String URL = "www.ilovefood.com";
+    private static final String URL = "http://www.ilovefood.com/";
     private String url;
     private OnFragmentInteractionListener mListener;
 
@@ -62,7 +62,7 @@ public class RecipeDetailsFragment extends Fragment {
         myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        myWebView.loadUrl(URL);
+       myWebView.loadUrl(URL);
 
         // Inflate the layout for this fragment
         return rootView;
