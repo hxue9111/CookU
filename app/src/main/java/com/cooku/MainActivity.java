@@ -22,19 +22,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        String viewType = sharedPrefs.getString(
-                getString(R.string.pref_view_key),
-                getString(R.string.pref_view_pin));
-
-//        Log.w("viewType", viewType);
-
-
-//        Fragment newFragment = new RecipeListFragment();
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.recipe_search_fragment, newFragment).commit();
     }
 
     @Override
