@@ -13,8 +13,8 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
-                RecipeDetailsFragment.OnItemClickListener,
-                RecipeListFragment.OnFragmentInteractionListener{
+                RecipeDetailsFragment.OnFragmentInteractionListener,
+                RecipeListFragment.OnItemClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
