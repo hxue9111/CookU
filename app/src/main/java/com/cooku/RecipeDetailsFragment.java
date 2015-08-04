@@ -59,9 +59,9 @@ public class RecipeDetailsFragment extends Fragment {
         /* Set the reciple details page to fixed site */
         View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
         WebView myWebView = (WebView) rootView.findViewById(R.id.recipe_details);
+        myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        myWebView.setWebViewClient(new MyWebViewClient());
         myWebView.loadUrl(URL);
 
         // Inflate the layout for this fragment
@@ -69,17 +69,13 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     private class MyWebViewClient extends WebViewClient {
-        @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
         }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri url) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(url);
+        @Override
+        public void onPageFinished(WebView view, String url){
+            ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
         }
     }
 

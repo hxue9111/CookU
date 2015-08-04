@@ -14,7 +14,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity
     implements RecipeSearchFragment.OnFragmentInteractionListener,
                 RecipeDetailsFragment.OnFragmentInteractionListener,
-                RecipeListFragment.OnItemClickListener{
+        RecipeListFragment.OnRecipeClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSearchTrigger(String[] ingredients){
-        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);// Show loading animation
+        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -87,12 +87,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick() {
-        findViewById(R.id.loading_animation).setVisibility(View.VISIBLE);// Show loading animation
+    public void onRecipeClick() {
+        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance("www.ilovefood.com"));
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+    public void toggleLoadAnimation(int visible){ //View.Gone or View.Visisble
+        this.findViewById(R.id.loading_animation).setVisibility(visible);
     }
 }
