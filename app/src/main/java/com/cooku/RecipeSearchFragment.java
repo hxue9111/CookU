@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +48,8 @@ public class RecipeSearchFragment extends Fragment
 
     private static final int INGREDIENT_LOADER = 0;
     IngredientListAdapter mIngredientListAdapter;
-
+    /*View for this fragment*/
+    private View view;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -76,19 +78,22 @@ public class RecipeSearchFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
+        view = inflater.inflate(R.layout.fragment_recipe_search, container, false);
 
         mIngredientListAdapter  = new IngredientListAdapter(getActivity(),null, 0);
         /*Attach adapter to the listView*/
         ListView listView = (ListView) view.findViewById(R.id.ingredient_list_view);
         listView.setAdapter(mIngredientListAdapter);
-
+        /*Attach onClickListener to the add ingredient button*/
+        ImageButton addIngredient = (ImageButton) view.findViewById(R.id.ingredient_add);
+        addIngredient.setOnClickListener(this);
         /*Attach onEditorAction to the EditText field*/
         TextView ingredientField = (EditText) view.findViewById(R.id.enter_ingredient_field);
         ingredientField.setOnEditorActionListener(this);
         /*Attach onClickListener to the search button*/
         Button searchButton = (Button) view.findViewById(R.id.search_recipes_button);
         searchButton.setOnClickListener(this);
+
 
         return view;
     }
@@ -97,10 +102,8 @@ public class RecipeSearchFragment extends Fragment
         boolean handled = false;
         if ((actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE ||
                 actionId == EditorInfo.IME_ACTION_GO) && v.getText().length() > 0) {
-            Toast.makeText(getActivity(),v.getText().toString() , Toast.LENGTH_SHORT).show();
             /*Adds ingredient to DB*/
-            addIngredient(v.getText().toString());
-
+            addIngredient();
             /*Closes keyboard after enter*/
             closeKeyboard(v);
 
@@ -109,15 +112,22 @@ public class RecipeSearchFragment extends Fragment
         return handled;
     }
     /*Adds ingredient to DB*/
-    private void addIngredient(String ingredient){
+    private void addIngredient(){
+        TextView ingredientField = (EditText) view.findViewById(R.id.enter_ingredient_field);
+        String ingredient = ingredientField.getText().toString();
         AsyncTask task = new AddIngredientTask(getActivity());
         task.execute(ingredient);
+        ingredientField.setText("");
 
+        Toast.makeText(getActivity(),ingredient, Toast.LENGTH_SHORT).show();
     }
     /*The following method sets up the buttons within this fragment*/
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ingredient_add:
+                addIngredient();
+                break;
             case R.id.search_recipes_button:
                 closeKeyboard(v);
 

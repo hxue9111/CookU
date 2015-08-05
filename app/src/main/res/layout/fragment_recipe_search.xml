@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:weightSum="1"
-        android:id="@+id/ingredient_add"
+        android:id="@+id/ingredient_add_bar"
         android:orientation="horizontal">
 
         <EditText
@@ -26,15 +26,15 @@
             android:inputType="text"
             android:hint="@string/enter_ingredient_hint"/>
 
-        <!--<ImageButton-->
-            <!--android:id="@+id/button"-->
-            <!--style="?android:attr/buttonStyleSmall"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:src="@android:drawable/ic_input_add"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:contentDescription="@string/ingredient_add_button"/>-->
+        <ImageButton
+            android:id="@+id/ingredient_add"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_add_black_36dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/ingredient_add_button"/>
     </LinearLayout>
 
     <ListView
