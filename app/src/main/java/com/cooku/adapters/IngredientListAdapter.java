@@ -1,5 +1,6 @@
 package com.cooku.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -68,7 +69,11 @@ public class IngredientListAdapter extends CursorAdapter{
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
-                //TODO: update ingredient with checked
+                ContentValues values = new ContentValues();
+                String selection = IngredientEntry.COLUMN_INGREDIENT_NAME + " = ?";
+                String[] selectionArgs = {ingredientName};
+                values.put(IngredientEntry.COLUMN_SELECTED, true);
+                context.getContentResolver().update(IngredientEntry.CONTENT_URI,values,selection,selectionArgs);
             }
         });
     }
