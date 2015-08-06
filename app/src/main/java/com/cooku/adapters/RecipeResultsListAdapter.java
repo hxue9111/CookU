@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cooku.R;
 import com.cooku.models.RecipeItem;
+import com.squareup.picasso.*;
 
 import java.util.List;
 
@@ -38,6 +40,17 @@ public class RecipeResultsListAdapter extends ArrayAdapter<RecipeItem>
         convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_search_results_row_item, parent,false);
         TextView ingName = (TextView) convertView.findViewById(R.id.recipe_name);
         ingName.setText(recipeName.getName());
+
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.recipe_pic);
+
+        String image_url = getItem(position).getImageUrl();
+
+        Picasso.with(context)
+                .load(image_url)
+                .fit().centerCrop()
+                .tag(context)
+                .into(imageView);
+
         return convertView;
     }
 
