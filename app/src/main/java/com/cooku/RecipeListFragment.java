@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -36,7 +37,8 @@ import java.util.List;
  */
 public class RecipeListFragment extends Fragment
         implements RecipeSearcher.RecipeSearcherCallback,
-        AdapterView.OnItemClickListener {
+        AdapterView.OnItemClickListener,
+        AbsListView.OnScrollListener{
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM_INGREDIENTS = "ingredients";
@@ -142,7 +144,14 @@ public class RecipeListFragment extends Fragment
         RecipeItem item = (RecipeItem) adapterView.getAdapter().getItem(position);
         mListener.onRecipeClick(item);
     }
+    @Override
+    public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
 
+    }
+    @Override
+    public void onScrollStateChanged(AbsListView listView, int scrollstate){
+
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
