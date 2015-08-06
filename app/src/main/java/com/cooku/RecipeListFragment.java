@@ -146,6 +146,12 @@ public class RecipeListFragment extends Fragment
     }
     @Override
     public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
+        int BUFFER = 16; //Load more recipes when 6 items left
+
+        if(firstVisibleItem + visibleItemCount >= totalItemCount - BUFFER){
+            System.out.println("Bottom");
+            System.out.flush();
+        }
 
     }
     @Override

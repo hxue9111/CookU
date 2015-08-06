@@ -35,12 +35,9 @@ public class RecipeResultsListAdapter extends ArrayAdapter<RecipeItem>
     {
         RecipeItem recipeName = getItem(position);
 
-        if (convertView == null)
-        {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_search_results_row_item, parent,false);
-            TextView ingName = (TextView) convertView.findViewById(R.id.recipe_name);
-            ingName.setText(recipeName.getName());
-        }
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_search_results_row_item, parent,false);
+        TextView ingName = (TextView) convertView.findViewById(R.id.recipe_name);
+        ingName.setText(recipeName.getName());
         return convertView;
     }
 

@@ -36,6 +36,7 @@ public class RecipeSearcher {
     }
 
     public void requestRecipes(){
+        System.out.println("requesting more");
         Uri builtUri = Uri.parse(BASE_URL)
                 .buildUpon()
                 //.appendQueryParameter(PAGE_PARAM, page)
