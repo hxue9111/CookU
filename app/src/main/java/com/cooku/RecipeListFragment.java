@@ -47,6 +47,7 @@ public class RecipeListFragment extends Fragment
     private OnRecipeClickListener mListener;
     private BaseAdapter viewAdapter;
     private View view;
+    private boolean loading;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -72,6 +73,7 @@ public class RecipeListFragment extends Fragment
         if (getArguments() != null) {
             recipes = Collections.synchronizedList(new ArrayList<RecipeItem>());
             searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes,this);
+            loading = true;
         }
     }
 
@@ -106,6 +108,7 @@ public class RecipeListFragment extends Fragment
         if(mainActivity != null) {
             mainActivity.toggleLoadAnimation(View.GONE);
             viewAdapter.notifyDataSetChanged();
+            loading = false;
         }
 
     }
@@ -153,7 +156,10 @@ public class RecipeListFragment extends Fragment
         int BUFFER = 3; //Load more recipes when BUFFER items left
 
         if(firstVisibleItem + visibleItemCount >= totalItemCount - BUFFER){
-            searcher.requestRecipes();
+            if(!loading) { //Only do requests when there is not already a request loading
+                loading = true;
+                searcher.requestRecipes();
+            }
         }
     }
     @Override
