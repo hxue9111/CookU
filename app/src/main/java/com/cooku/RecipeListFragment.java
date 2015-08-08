@@ -46,6 +46,7 @@ public class RecipeListFragment extends Fragment
     private List<RecipeItem> recipes;
     private OnRecipeClickListener mListener;
     private BaseAdapter viewAdapter;
+    private View view;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -71,14 +72,12 @@ public class RecipeListFragment extends Fragment
         if (getArguments() != null) {
             recipes = Collections.synchronizedList(new ArrayList<RecipeItem>());
             searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes,this);
-            searcher.requestRecipes();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view;
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
         String viewType = sharedPrefs.getString(
@@ -90,20 +89,25 @@ public class RecipeListFragment extends Fragment
             ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
             listView.setAdapter(viewAdapter);
             listView.setOnItemClickListener(this);
+            listView.setOnScrollListener(this);
         }else {
             view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
             viewAdapter = new RecipeResultsGridAdapter(getActivity(), recipes);
             GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
             gv.setAdapter(viewAdapter);
             gv.setOnItemClickListener(this);
+            gv.setOnScrollListener(this);
         }
-
         return view;
     }
     @Override
     public void onFinishedLoading(){
-        ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
-        viewAdapter.notifyDataSetChanged();
+        MainActivity mainActivity = ((MainActivity)getActivity());
+        if(mainActivity != null) {
+            mainActivity.toggleLoadAnimation(View.GONE);
+            viewAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -146,13 +150,11 @@ public class RecipeListFragment extends Fragment
     }
     @Override
     public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount){
-        int BUFFER = 16; //Load more recipes when 6 items left
+        int BUFFER = 3; //Load more recipes when BUFFER items left
 
         if(firstVisibleItem + visibleItemCount >= totalItemCount - BUFFER){
-            System.out.println("Bottom");
-            System.out.flush();
+            searcher.requestRecipes();
         }
-
     }
     @Override
     public void onScrollStateChanged(AbsListView listView, int scrollstate){

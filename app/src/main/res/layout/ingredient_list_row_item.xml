@@ -24,7 +24,7 @@
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
         android:gravity="end"
-        android:src="@android:drawable/ic_delete"
+        android:src="@drawable/ic_delete_black_24dp"
         android:background="?android:attr/selectableItemBackground"
         android:layout_toLeftOf="@id/ingredient_checkbox"
         android:layout_toStartOf="@id/ingredient_checkbox"
