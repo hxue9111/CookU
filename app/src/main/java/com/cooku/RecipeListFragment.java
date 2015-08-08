@@ -128,6 +128,7 @@ public class RecipeListFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
     }
     @Override
     public void onStart() {
