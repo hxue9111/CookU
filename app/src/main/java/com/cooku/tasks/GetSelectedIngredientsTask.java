@@ -24,11 +24,9 @@ public class GetSelectedIngredientsTask extends AsyncTask<Object, Void, String[]
 
     String[] getSelected() {
         Cursor results = mContext.getContentResolver().query(RecipeContract.IngredientEntry.CONTENT_URI, new String[]{RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME}, RecipeContract.IngredientEntry.COLUMN_SELECTED, new String [] {"1"}, null);
-        int count = 0;
         ArrayList<String> selectedIngredeients = new ArrayList<String>();
         while(results.moveToNext()) {
-            selectedIngredeients.add(results.getString(count));
-            count += 1;
+            selectedIngredeients.add(results.getString(results.getColumnIndex(RecipeContract.IngredientEntry.COLUMN_INGREDIENT_NAME)));
         }
         String[] selectedIngredient = selectedIngredeients.toArray(new String[selectedIngredeients.size()]);
         return selectedIngredient;

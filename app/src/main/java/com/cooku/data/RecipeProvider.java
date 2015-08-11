@@ -36,7 +36,6 @@ public class RecipeProvider extends ContentProvider {
 
 
     private Cursor getAllIngredientsCursor() {
-        //TODO projection should also have is_selected column but we need to add a way to add things first
         String [] projection = {IngredientEntry._ID, IngredientEntry.COLUMN_INGREDIENT_NAME, IngredientEntry.COLUMN_SELECTED};
         return sRecipeContractQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
@@ -45,6 +44,10 @@ public class RecipeProvider extends ContentProvider {
                 null,
                 null,
                 null);
+    }
+    private Cursor getSelectedIngredientsCursor(){
+        String [] projection = {IngredientEntry._ID, IngredientEntry.COLUMN_INGREDIENT_NAME, IngredientEntry.COLUMN_SELECTED};
+        return sRecipeContractQueryBuilder.query(mOpenHelper.getReadableDatabase(), projection, IngredientEntry.COLUMN_SELECTED + "=?", new String[] {"1"}, null, null, null);
     }
 
 
@@ -110,6 +113,11 @@ public class RecipeProvider extends ContentProvider {
             case INGREDIENT_ALL:
             {
                 retCursor = getAllIngredientsCursor();
+                break;
+            }
+            case INGREDIENT:
+            {
+                retCursor = getSelectedIngredientsCursor();
                 break;
             }
 //            case RECIPE: {

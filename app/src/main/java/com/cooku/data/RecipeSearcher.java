@@ -1,14 +1,13 @@
 package com.cooku.data;
 
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.cooku.models.RecipeItem;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.squareup.okhttp.Callback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +54,8 @@ public class RecipeSearcher {
                 .buildUpon()
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(page))
                 .build();
+
+        System.out.println(builtUri.toString());
         page++;
         //Building the request
         Request request = new Request.Builder()
