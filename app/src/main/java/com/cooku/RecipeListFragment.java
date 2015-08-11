@@ -9,11 +9,15 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -47,7 +51,11 @@ public class RecipeListFragment extends Fragment
     private OnRecipeClickListener mListener;
     private BaseAdapter viewAdapter;
     private View view;
+    private ViewGroup viewGroup;
     private boolean loading;
+    private SharedPreferences sharedPrefs;
+    private
+    SharedPreferences.Editor editor;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -74,31 +82,73 @@ public class RecipeListFragment extends Fragment
             recipes = Collections.synchronizedList(new ArrayList<RecipeItem>());
             searcher = new RecipeSearcher(getArguments().getStringArray(ARG_PARAM_INGREDIENTS),recipes,this);
             loading = true;
+            sharedPrefs =
+                    PreferenceManager.getDefaultSharedPreferences(getActivity());
+            editor
+                    = sharedPrefs.edit();
+            setHasOptionsMenu(true);
         }
     }
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
+        setViewToggleIcon(menu.getItem(0), gridView);
+    }
+    public void viewToggle(MenuItem item){
+        //TRUE == grid view, false == list view
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
+        setViewToggleIcon(item, !gridView);
+        editor.putBoolean(getString(R.string.pref_view_key), !gridView);
+        editor.commit();
 
+        viewGroup.removeAllViews();
+        loadView(getActivity().getLayoutInflater(), viewGroup);
+
+    }
+    public void setViewToggleIcon(MenuItem item, boolean gridView){
+        if(gridView){
+            item.setIcon(getResources().getDrawable(R.drawable.ic_view_module_black_48dp));
+        }else{
+            item.setIcon(getResources().getDrawable(R.drawable.ic_view_list_black_48dp));
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.view_toggle:
+                viewToggle(item);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), false);
+        viewGroup = new FrameLayout(getActivity());
+        loadView(inflater, viewGroup);
+        return viewGroup;
+    }
+    public void loadView(LayoutInflater inflater, ViewGroup container){
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
         if(!gridView){
-            view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
+            view =  inflater.inflate(R.layout.fragment_recipe_list, container, true);
             viewAdapter = new RecipeResultsListAdapter(getActivity(), recipes);
             ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);
             listView.setAdapter(viewAdapter);
             listView.setOnItemClickListener(this);
             listView.setOnScrollListener(this);
         }else {
-            view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,false);
+            view = inflater.inflate(R.layout.fragment_recipe_list_grid,container,true);
             viewAdapter = new RecipeResultsGridAdapter(getActivity(), recipes);
             GridView gv = (GridView) view.findViewById(R.id.search_results_grid_view);
             gv.setAdapter(viewAdapter);
             gv.setOnItemClickListener(this);
             gv.setOnScrollListener(this);
         }
-        return view;
     }
     @Override
     public void onFinishedLoading(){

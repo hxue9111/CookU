@@ -47,12 +47,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
-        setViewToggleIcon(menu.getItem(0),gridView);
 
         return true;
     }
@@ -64,9 +59,6 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.view_toggle){
-            viewToggle(item);
-        }
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            startActivity(new Intent(this, SettingsActivity.class));
@@ -75,27 +67,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-    public void viewToggle(MenuItem item){
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        //TRUE == grid view, false == list view
 
-        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
-        setViewToggleIcon(item, !gridView);
-        editor.putBoolean(getString(R.string.pref_view_key), !gridView);
-        editor.commit();
-
-    }
-    public void setViewToggleIcon(MenuItem item, boolean gridView){
-        if(gridView){
-            item.setIcon(getResources().getDrawable(R.drawable.ic_view_module_black_48dp));
-            System.out.println("grid view");
-        }else{
-            item.setIcon(getResources().getDrawable(R.drawable.ic_view_list_black_48dp));
-            System.out.println("list view");
-        }
-    }
     @Override
     public void onSearchTrigger(String[] ingredients){
         this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
