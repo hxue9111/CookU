@@ -1,8 +1,8 @@
 package com.cooku.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +50,8 @@ public class IngredientListAdapter extends CursorAdapter{
         This is where we fill-in the views with the contents of the cursor.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        String ingredientName = cursor.getString(cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME));
+    public void bindView(View view, final Context context, final Cursor cursor) {
+        final String ingredientName = cursor.getString(cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME));
         boolean ingredientChecked = cursor.getInt(cursor.getColumnIndex(IngredientEntry.COLUMN_SELECTED)) == 1;
 
         TextView ingName = (TextView) view.findViewById(R.id.ingredient_name);
@@ -59,17 +59,21 @@ public class IngredientListAdapter extends CursorAdapter{
         ingName.setText(ingredientName);
         toggle.setChecked(ingredientChecked);
 
-        ImageButton delete = (ImageButton)view.findViewById(R.id.ingredient_delete);
+        final ImageButton delete = (ImageButton)view.findViewById(R.id.ingredient_delete);
         delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO: delete ingredient with name ingredientName
+                context.getContentResolver().delete(IngredientEntry.CONTENT_URI,IngredientEntry.COLUMN_INGREDIENT_NAME + "=?",new String[]{ingredientName});
             }
         });
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean checked){
-                //TODO: update ingredient with checked
+            public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
+                ContentValues values = new ContentValues();
+                String selection = IngredientEntry.COLUMN_INGREDIENT_NAME + " = ?";
+                String[] selectionArgs = {ingredientName};
+                values.put(IngredientEntry.COLUMN_SELECTED, true);
+                context.getContentResolver().update(IngredientEntry.CONTENT_URI,values,selection,selectionArgs);
             }
         });
     }
