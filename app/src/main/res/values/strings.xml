@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CookU</string>
+    <string name="action_view_toggle">Toggle View</string>
     <string name="action_settings">Settings</string>
 
     <!-- RecipeSearchLayout Strings -->

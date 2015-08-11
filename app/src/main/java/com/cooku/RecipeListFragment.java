@@ -82,10 +82,8 @@ public class RecipeListFragment extends Fragment
                              Bundle savedInstanceState) {
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String viewType = sharedPrefs.getString(
-                getString(R.string.pref_view_key),
-                getString(R.string.pref_view_pin));
-        if(viewType.equals(getString(R.string.pref_view_list))){
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), false);
+        if(!gridView){
             view =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
             viewAdapter = new RecipeResultsListAdapter(getActivity(), recipes);
             ListView listView = (ListView) view.findViewById(R.id.search_results_list_view);

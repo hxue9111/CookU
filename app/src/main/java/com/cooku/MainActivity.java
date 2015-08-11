@@ -2,8 +2,10 @@ package com.cooku;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +48,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
+        setViewToggleIcon(menu.getItem(0),gridView);
+
         return true;
     }
 
@@ -56,15 +64,38 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
+        if(id == R.id.view_toggle){
+            viewToggle(item);
         }
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            startActivity(new Intent(this, SettingsActivity.class));
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
+    public void viewToggle(MenuItem item){
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        //TRUE == grid view, false == list view
 
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
+        setViewToggleIcon(item, !gridView);
+        editor.putBoolean(getString(R.string.pref_view_key), !gridView);
+        editor.commit();
+
+    }
+    public void setViewToggleIcon(MenuItem item, boolean gridView){
+        if(gridView){
+            item.setIcon(getResources().getDrawable(R.drawable.ic_view_module_black_48dp));
+            System.out.println("grid view");
+        }else{
+            item.setIcon(getResources().getDrawable(R.drawable.ic_view_list_black_48dp));
+            System.out.println("list view");
+        }
+    }
     @Override
     public void onSearchTrigger(String[] ingredients){
         this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
