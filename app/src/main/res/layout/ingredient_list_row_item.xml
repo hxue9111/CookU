@@ -7,7 +7,8 @@
         android:layout_height="wrap_content"
         android:text="Test String"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:paddingLeft="12dp"/>
 
     <CheckBox
         android:id="@+id/ingredient_checkbox"
