@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.cooku.adapters.IngredientListAdapter;
 import com.cooku.data.RecipeContract;
 import com.cooku.tasks.AddIngredientTask;
+import com.cooku.tasks.GetSelectedIngredientsTask;
 
 
 /**
@@ -41,7 +42,7 @@ import com.cooku.tasks.AddIngredientTask;
 public class RecipeSearchFragment extends Fragment
         implements View.OnClickListener,
         LoaderManager.LoaderCallbacks<Cursor>,
-        TextView.OnEditorActionListener{
+        TextView.OnEditorActionListener, GetSelectedIngredientsTask.Listener{
 
     /*Carries instance of parent Activity, used to do callbacks to parent*/
     private OnFragmentInteractionListener mListener;
@@ -130,10 +131,8 @@ public class RecipeSearchFragment extends Fragment
                 break;
             case R.id.search_recipes_button:
                 closeKeyboard(v);
-
-                String[] checkedIngredients = new String[]{"eggs","bacon"};
-
-                mListener.onSearchTrigger(checkedIngredients);
+                AsyncTask selectedIngredientTask = new GetSelectedIngredientsTask(getActivity(),this);
+                selectedIngredientTask.execute();
                 break;
         }
     }
@@ -193,6 +192,13 @@ public class RecipeSearchFragment extends Fragment
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
+
+    @Override
+    public void onIngredientsRecieved(String[] ingredients) {
+        mListener.onSearchTrigger(ingredients);
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
