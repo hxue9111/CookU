@@ -120,12 +120,6 @@ public class RecipeProvider extends ContentProvider {
                 retCursor = getSelectedIngredientsCursor();
                 break;
             }
-//            case RECIPE: {
-//                //TODO Add recipe content provider methods
-//                retCursor = null;
-//                break;
-//            }
-            // "weather"
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

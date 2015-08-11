@@ -1,0 +1,25 @@
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.cooku.cooku.RecipeListFragment"
+android:orientation="horizontal">
+
+
+<ListView
+    android:id="@+id/search_results_list_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight=".7">
+
+</ListView>
+<WebView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recipe_details"
+    android:layout_width="385dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="right" />
+
+
+</LinearLayout>
