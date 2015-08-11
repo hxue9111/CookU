@@ -53,7 +53,7 @@ public class RecipeSearcher {
 
         Uri builtUri = Uri.parse(BASE_URL)
                 .buildUpon()
-                //.appendQueryParameter(PAGE_PARAM, page)
+                .appendQueryParameter(PAGE_PARAM, Integer.toString(page))
                 .build();
         page++;
         //Building the request
