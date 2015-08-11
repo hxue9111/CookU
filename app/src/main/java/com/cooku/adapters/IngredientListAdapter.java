@@ -72,7 +72,7 @@ public class IngredientListAdapter extends CursorAdapter{
                 ContentValues values = new ContentValues();
                 String selection = IngredientEntry.COLUMN_INGREDIENT_NAME + " = ?";
                 String[] selectionArgs = {ingredientName};
-                values.put(IngredientEntry.COLUMN_SELECTED, true);
+                values.put(IngredientEntry.COLUMN_SELECTED, checked);
                 context.getContentResolver().update(IngredientEntry.CONTENT_URI,values,selection,selectionArgs);
             }
         });
