@@ -1,7 +1,6 @@
 package com.cooku;
 
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -70,13 +69,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSearchTrigger(String[] ingredients){
-        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
-        transaction.addToBackStack(null);
-        transaction.commit();
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        //TODO: also load first search result webview
+        if (isTablet)
+        {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+        }
+        else { //Phone view
+            this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+
 
     }
 
@@ -98,12 +110,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRecipeClick(RecipeItem recipe) {
-        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance(recipe));
-        transaction.addToBackStack(null);
-        transaction.commit();
+
+        if (!isTablet) { //Phone view, click to Details view
+            this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance(recipe));
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        // TODO: Tablet view, update the webview, do not click to details view
+        else
+        {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.recipe_details, RecipeDetailsFragment.newInstance(recipe));
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
     public void toggleLoadAnimation(int visible){ //View.Gone or View.Visisble
         this.findViewById(R.id.loading_animation).setVisibility(visible);
