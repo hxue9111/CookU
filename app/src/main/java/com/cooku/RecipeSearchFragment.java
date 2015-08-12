@@ -1,6 +1,7 @@
 package com.cooku;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -195,7 +196,16 @@ public class RecipeSearchFragment extends Fragment
 
     @Override
     public void onIngredientsRecieved(String[] ingredients) {
-        mListener.onSearchTrigger(ingredients);
+        if(ingredients.length != 0){
+            mListener.onSearchTrigger(ingredients);
+        }
+        else{
+            AlertDialog.Builder emptyIngredients = new AlertDialog.Builder(getActivity());
+            emptyIngredients.setMessage("You haven't selected any ingredients! Please select some so we can find recipes for you");
+            emptyIngredients.setTitle("Select some ingredients");
+            emptyIngredients.setPositiveButton("Ok", null);
+            emptyIngredients.create().show();
+        }
 
     }
 

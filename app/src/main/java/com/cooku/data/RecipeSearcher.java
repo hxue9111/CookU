@@ -16,7 +16,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Created by Huang Xue on 7/30/2015.
  */
@@ -72,7 +71,6 @@ public class RecipeSearcher {
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String stringResponse = response.body().string();
-
                 //Send response string to the parser to add to recipe list
                 new ResponseParser(recipes,buffer).execute(stringResponse);
             }
