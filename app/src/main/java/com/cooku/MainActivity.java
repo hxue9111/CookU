@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.cooku.models.RecipeItem;
 
@@ -69,8 +70,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSearchTrigger(String[] ingredients){
-
-
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
         //TODO: also load first search result webview
         if (isTablet)
@@ -110,11 +109,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRecipeClick(RecipeItem recipe) {
+
+
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
+        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
-        if (!isTablet) { //Phone view, click to Details view
-            this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
+        if (!isTablet || gridView) { //Phone view, click to Details view
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance(recipe));
             transaction.addToBackStack(null);
@@ -123,6 +127,7 @@ public class MainActivity extends AppCompatActivity
         // TODO: Tablet view, update the webview, do not click to details view
         else
         {
+
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.recipe_details, RecipeDetailsFragment.newInstance(recipe));
             transaction.addToBackStack(null);
