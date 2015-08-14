@@ -163,7 +163,7 @@ public class RecipeListFragment extends Fragment
         }
         if(loaded < 30){
             AlertDialog.Builder outOfRecipes = new AlertDialog.Builder(getActivity());
-            outOfRecipes.setMessage("No more recipes found! Try adding more ingredients");
+            outOfRecipes.setMessage("All recipes found! Try adding more ingredients for more recipes");
             outOfRecipes.setTitle("Results");
             outOfRecipes.setPositiveButton("Ok", null);
             outOfRecipes.create().show();

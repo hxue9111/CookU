@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, RecipeSearchFragment.newInstance());
+        transaction.commit();
 //        if (findViewById(R.id.recipe_detail_container) != null) {
 //            // The detail container view will be present only in the large-screen layouts
 //            // (res/layout-sw600dp). If this view is present, then the activity should be
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         if (isTablet)
         {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
+            transaction.replace(R.id.fragment_container, RecipeListFragment.newInstance(ingredients));
             transaction.addToBackStack(null);
             transaction.commit();
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         else { //Phone view
             this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.recipe_search_view, RecipeListFragment.newInstance(ingredients));
+            transaction.replace(R.id.fragment_container, RecipeListFragment.newInstance(ingredients));
             transaction.addToBackStack(null);
             transaction.commit();
         }
