@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
 
         if (!isTablet || gridView) { //Phone view, click to Details view
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.recipe_search_view, RecipeDetailsFragment.newInstance(recipe));
+            transaction.replace(R.id.fragment_container, RecipeDetailsFragment.newInstance(recipe));
             transaction.addToBackStack(null);
             transaction.commit();
         }
