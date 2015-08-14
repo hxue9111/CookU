@@ -1,5 +1,6 @@
 package com.cooku.data;
 
+import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -45,7 +46,7 @@ public class RecipeSearcher {
 
         if(buffer.size() > 0){
             recipes.addAll(buffer);
-            callback.onFinishedLoading();
+            callback.onFinishedLoading(buffer.size());
             buffer.clear();
         }
 
@@ -81,6 +82,7 @@ public class RecipeSearcher {
     //Asynchronous JSON parser, automatically adds recipe items to a buffer list
     private class ResponseParser extends AsyncTask<String, Void, Void>{
         List<RecipeItem> recipes, buffer;
+
         public ResponseParser(List<RecipeItem> recipes, List<RecipeItem> buffer){
             this.recipes = recipes;
             this.buffer = buffer;
@@ -109,16 +111,15 @@ public class RecipeSearcher {
         }
         @Override
         protected void onPostExecute(Void v) {
-            if(recipes.size() == 0) {
+            if(recipes.size() == 0 && buffer.size() != 0) {
                 requestRecipes();
             }
-            callback.onFinishedLoading();
         }
     }
 
     //Callback interface
     public interface RecipeSearcherCallback{
-        public void onFinishedLoading();
+        public void onFinishedLoading(int loaded);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.cooku;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -52,7 +53,7 @@ public class RecipeListFragment extends Fragment
     private BaseAdapter viewAdapter;
     private View view;
     private ViewGroup viewGroup;
-    private boolean loading;
+    private boolean loading, outOfResults;
     private SharedPreferences sharedPrefs;
     private
     SharedPreferences.Editor editor;
@@ -151,14 +152,23 @@ public class RecipeListFragment extends Fragment
         }
     }
     @Override
-    public void onFinishedLoading(){
+    public void onFinishedLoading(int loaded){
+
+        System.out.println("just loaded: " + loaded);
         MainActivity mainActivity = ((MainActivity)getActivity());
         if(mainActivity != null) {
             mainActivity.toggleLoadAnimation(View.GONE);
             viewAdapter.notifyDataSetChanged();
             loading = false;
         }
-
+        if(loaded < 30){
+            AlertDialog.Builder outOfRecipes = new AlertDialog.Builder(getActivity());
+            outOfRecipes.setMessage("No more recipes found! Try adding more ingredients");
+            outOfRecipes.setTitle("Results");
+            outOfRecipes.setPositiveButton("Ok", null);
+            outOfRecipes.create().show();
+            outOfResults = true; //Set loading to true because no results are found
+        }
     }
 
     @Override
@@ -205,7 +215,7 @@ public class RecipeListFragment extends Fragment
         int BUFFER = 3; //Load more recipes when BUFFER items left
 
         if(firstVisibleItem + visibleItemCount >= totalItemCount - BUFFER){
-            if(!loading) { //Only do requests when there is not already a request loading
+            if(!loading && !outOfResults) { //Only do requests when there is not already a request loading
                 loading = true;
                 searcher.requestRecipes();
             }
