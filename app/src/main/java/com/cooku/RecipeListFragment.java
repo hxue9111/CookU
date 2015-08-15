@@ -161,7 +161,8 @@ public class RecipeListFragment extends Fragment
             viewAdapter.notifyDataSetChanged();
             loading = false;
         }
-        if(loaded < 30){
+        if(loaded == 0 && !outOfResults){
+            System.out.println("creating dialog: loaded: "+loaded);
             AlertDialog.Builder outOfRecipes = new AlertDialog.Builder(getActivity());
             outOfRecipes.setMessage("All recipes found! Try adding more ingredients for more recipes");
             outOfRecipes.setTitle("Results");
