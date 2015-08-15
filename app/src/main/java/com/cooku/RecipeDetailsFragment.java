@@ -80,8 +80,19 @@ public class RecipeDetailsFragment extends Fragment {
         public void onPageFinished(WebView view, String url){
             MainActivity activity = ((MainActivity)getActivity());
 
-            if(activity != null)
-                activity.toggleLoadAnimation(View.GONE);
+            if(activity != null) {
+                System.out.println("done details");
+                activity.toggleFullScreenLoadAnimation(View.GONE);
+
+                View loadingView = activity.findViewById(R.id.tablet_loading_animation);
+                if(loadingView != null)
+                    loadingView.setVisibility(View.GONE);
+                View detailsView = activity.findViewById(R.id.recipe_details);
+                if(detailsView != null)
+                    detailsView.setVisibility(View.VISIBLE);
+
+
+            }
         }
     }
 
@@ -101,7 +112,10 @@ public class RecipeDetailsFragment extends Fragment {
         super.onDetach();
         mListener = null;
         myWebView.stopLoading();
-        ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
+        MainActivity activity = ((MainActivity)getActivity());
+        if(activity != null){
+            activity.toggleFullScreenLoadAnimation(View.GONE);
+        }
     }
     @Override
     public void onStart() {

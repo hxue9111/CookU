@@ -7,7 +7,7 @@
     android:focusableInTouchMode="true">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:weightSum="1"
@@ -16,7 +16,7 @@
 
         <EditText
             android:id="@+id/enter_ingredient_field"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="3dp"

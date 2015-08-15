@@ -157,7 +157,7 @@ public class RecipeListFragment extends Fragment
         System.out.println("just loaded: " + loaded);
         MainActivity mainActivity = ((MainActivity)getActivity());
         if(mainActivity != null) {
-            mainActivity.toggleLoadAnimation(View.GONE);
+            mainActivity.toggleFullScreenLoadAnimation(View.GONE);
             viewAdapter.notifyDataSetChanged();
             loading = false;
         }
@@ -186,7 +186,7 @@ public class RecipeListFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        ((MainActivity)getActivity()).toggleLoadAnimation(View.GONE);
+        ((MainActivity)getActivity()).toggleFullScreenLoadAnimation(View.GONE);
     }
     @Override
     public void onStart() {

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSearchTrigger(String[] ingredients){
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
+        this.toggleFullScreenLoadAnimation(View.VISIBLE);// Show loading animation
         //TODO: also load first search result webview
         if (isTablet)
         {
@@ -83,7 +86,6 @@ public class MainActivity extends AppCompatActivity
 
         }
         else { //Phone view
-            this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, RecipeListFragment.newInstance(ingredients));
             transaction.addToBackStack(null);
@@ -118,9 +120,9 @@ public class MainActivity extends AppCompatActivity
         boolean gridView = sharedPrefs.getBoolean(getString(R.string.pref_view_key), true);
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        this.toggleLoadAnimation(View.VISIBLE);// Show loading animation
 
         if (!isTablet || gridView) { //Phone view, click to Details view
+            this.toggleFullScreenLoadAnimation(View.VISIBLE);// Show loading animation
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, RecipeDetailsFragment.newInstance(recipe));
             transaction.addToBackStack(null);
@@ -129,14 +131,21 @@ public class MainActivity extends AppCompatActivity
         // TODO: Tablet view, update the webview, do not click to details view
         else
         {
-
+            View loadingView = this.findViewById(R.id.tablet_loading_animation);
+            if(loadingView != null)
+                loadingView.setVisibility(View.VISIBLE);
+            View detailsView = this.findViewById(R.id.recipe_details);
+            if(detailsView != null)
+                detailsView.setVisibility(View.INVISIBLE);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.recipe_details, RecipeDetailsFragment.newInstance(recipe));
-            transaction.addToBackStack(null);
             transaction.commit();
         }
     }
-    public void toggleLoadAnimation(int visible){ //View.Gone or View.Visisble
-        this.findViewById(R.id.loading_animation).setVisibility(visible);
+    public void toggleFullScreenLoadAnimation(int visible){ //View.Gone or View.Visisble
+        View loadingView = this.findViewById(R.id.loading_animation);
+        if(loadingView != null) {
+            loadingView.setVisibility(visible);
+        }
     }
 }
