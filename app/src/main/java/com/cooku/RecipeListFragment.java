@@ -163,11 +163,15 @@ public class RecipeListFragment extends Fragment
         }
         if(loaded == 0 && !outOfResults){
             System.out.println("creating dialog: loaded: "+loaded);
-            AlertDialog.Builder outOfRecipes = new AlertDialog.Builder(getActivity());
-            outOfRecipes.setMessage("All recipes found! Try adding more ingredients for more recipes");
-            outOfRecipes.setTitle("Results");
-            outOfRecipes.setPositiveButton("Ok", null);
-            outOfRecipes.create().show();
+            MainActivity activity = (MainActivity)getActivity();
+
+            if(activity != null){
+                AlertDialog.Builder outOfRecipes = new AlertDialog.Builder(getActivity());
+                outOfRecipes.setMessage("All recipes found! Try adding more ingredients for more recipes");
+                outOfRecipes.setTitle("Results");
+                outOfRecipes.setPositiveButton("Ok", null);
+                outOfRecipes.create().show();
+            }
             outOfResults = true; //Set loading to true because no results are found
         }
     }
