@@ -107,10 +107,14 @@ public class RecipeSearcher {
             }catch(JSONException jse){
                 jse.printStackTrace();
             }
+
             return null;
         }
         @Override
         protected void onPostExecute(Void v) {
+            if(buffer.size() == 0) {
+                callback.onFinishedLoading(0);
+            }
             if(recipes.size() == 0 && buffer.size() != 0) {
                 requestRecipes();
             }
